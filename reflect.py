@@ -12,7 +12,8 @@ from encrypted_json_storage import EncryptedJSONStorage
 import sys
 import os
 import datetime
-import uuid
+import uuid # creating unique id's for storage
+from pathlib import Path # for finding user's home
 
 style = style_from_dict({
     Token.Separator: '#cc5454',
@@ -69,7 +70,8 @@ clear_screen()
 encryption_key = prompt(pwd_questions, style=custom_style_2)["password"]
 
 try:
-    db = TinyDB(encryption_key=encryption_key, path="./reflect.db", storage=EncryptedJSONStorage)
+    from os.path import join as join_path
+    db = TinyDB(encryption_key=encryption_key, path=join_path(str(Path.home()),".reflect.db"), storage=EncryptedJSONStorage)
 except:
     print("Error loading DB, probably wrong encryption key",sys.exc_info()[0], sys.exc_info()[1])
     sys.exit(0)
@@ -296,20 +298,21 @@ def modify_questions(time, data_base):
             return
 
 
-action = ""
-while True:
-    action = prompt(main_menu_questions)["mm_action"]
-    clear_screen()
-    if action=="Quit": break
+def reflect():
+    action = ""
+    while True:
+        action = prompt(main_menu_questions)["mm_action"]
+        clear_screen()
+        if action=="Quit": break
 
-    time = prompt(time_questions)["time"]
-    if time=="Back": continue
+        time = prompt(time_questions)["time"]
+        if time=="Back": continue
 
-    if action=="Reflection":
-        do_reflection(time, db)
-    elif action=="Add Questions":
-        add_questions(time, db)
-    elif action=="Modify Questions":
-        modify_questions(time, db)
-    elif action=="Delete Questions":
-        delete_questions(time, db)
+        if action=="Reflection":
+            do_reflection(time, db)
+        elif action=="Add Questions":
+            add_questions(time, db)
+        elif action=="Modify Questions":
+            modify_questions(time, db)
+        elif action=="Delete Questions":
+            delete_questions(time, db)

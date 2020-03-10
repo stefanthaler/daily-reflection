@@ -6,9 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.2] - 2020-03-10
+## Added
+- package information for creating and publishing as pip package
+
+## Removed
+- test.db and test.py files
+
 ## [0.0.1] - 2020-03-09
 ### Added
-- Add, change, and remove questions
+- Add, change, and remove questions  
 - Conduct morning and evening reflection
 - Password protected storage of questions and answers
 

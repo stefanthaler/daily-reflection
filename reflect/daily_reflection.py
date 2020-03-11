@@ -8,7 +8,7 @@ from PyInquirer import prompt, style_from_dict, Token, Separator, print_json, Se
 from examples import custom_style_2
 from pprint import pprint
 from tinydb import TinyDB, where, Query
-from encrypted_json_storage import EncryptedJSONStorage
+from reflect.encrypted_json_storage import EncryptedJSONStorage
 import sys
 import os
 import datetime
@@ -145,6 +145,12 @@ def add_questions(time, data_base):
             'message': 'Which question do you want to add for your '+time+' reflection?'
         }]
         new_question_text=prompt(add_question)["new_question"]
+        if len(new_question_text)==0:
+            clear_screen()
+            print("Empty text, no question added.")
+            return
+
+
         if not new_question_text[-1]=="?":
             new_question_text=new_question_text+"?"
 
@@ -265,6 +271,12 @@ def modify_questions(time, data_base):
             'default':mod_action
         }]
         modified_question_text=prompt(mod_question)["new_question"]
+
+        if len(modified_question_text)==0:
+            clear_screen()
+            print("Empty text, question not modified. If you want to delete a question, use the delete menu.")
+            return
+
         if not modified_question_text[-1]=="?":
             modified_question_text=modified_question_text+"?"
 
@@ -298,7 +310,7 @@ def modify_questions(time, data_base):
             return
 
 
-def reflect():
+def reflection_menu():
     action = ""
     while True:
         action = prompt(main_menu_questions)["mm_action"]

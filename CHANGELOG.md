@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.3] - 2020-03-11
+## Changed
+- restructured files to be executable in pip package
+- fixed behavior when submitting an empty question.
+
+
 ## [0.0.2] - 2020-03-10
 ## Added
 - package information for creating and publishing as pip package

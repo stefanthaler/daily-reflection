@@ -6,7 +6,7 @@ setuptools.setup(
      version='0.0.2',
      scripts=['daily-reflection'] ,
      author="Stefan Thaler",
-     author_email="bruthaler [at] gmail.com",
+     author_email="bruthaler@gmail.com",
      description="A small command-line tool that helps you conduct your daily morning/evening reflection.",
      long_description=long_description,
    long_description_content_type="text/markdown",

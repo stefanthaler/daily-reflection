@@ -1,13 +1,15 @@
 # Daily Reflection
-A smallpython, command line tool that helps you conduct your daily self-reflection, morning and or evening. It allows you to define questions that you want to ask to your selves and stores your daily answers in a password protected storage.
+A small python, command line tool that helps you conduct your daily self-reflection, morning and or evening. It allows you to define questions that you want to ask to your selves and stores your daily answers in a password protected storage.
 
 # Installation
 
 ## Via pip
-* TBD 
+* pip install daily-reflect
+* ./daily-reflect  
 
 ## Via pip + git
-* TBD
+* pip install git+git://github.com/stefanthaler/daily-reflection.git#egg=daily-reflect
+* ./daily-reflect
 
 ## Via git
 * git clone git@github.com:stefanthaler/daily-reflect
@@ -15,8 +17,6 @@ A smallpython, command line tool that helps you conduct your daily self-reflecti
 * . .env/bin/activate.fish  
 * pip3 install -r requirements.txt
 * ./daily-reflect
-
-
 
 # Building package
 * git clone git@github.com:stefanthaler/daily-reflect
@@ -39,5 +39,12 @@ A smallpython, command line tool that helps you conduct your daily self-reflecti
 * tqdm
 * twine
 
-# Thanks to::
+# Thanks to:
 * Deepak Kumar for his tutorial on how to publish your python package on pip, https://dzone.com/articles/executable-package-pip-install
+* Shields.io, for providing the github paypal button: https://shields.io/
+
+# Support me:
+
+If you want to say thank you, you can pay me a coffee or a beer :bowtie:
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=C8FBBG2RZ5WYS)

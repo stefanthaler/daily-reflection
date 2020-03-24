@@ -1,3 +1,5 @@
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=C8FBBG2RZ5WYS&currency_code=EUR&source=url)
+
 # Daily Reflection
 A small python, command line tool that helps you conduct your daily self-reflection, morning and or evening. It allows you to define questions that you want to ask to your selves and stores your daily answers in a password protected storage.
 
@@ -42,9 +44,3 @@ A small python, command line tool that helps you conduct your daily self-reflect
 # Thanks to:
 * Deepak Kumar for his tutorial on how to publish your python package on pip, https://dzone.com/articles/executable-package-pip-install
 * Shields.io, for providing the github paypal button: https://shields.io/
-
-# Support me:
-
-If you want to say thank you, you can pay me a coffee or a beer :bowtie:
-
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=C8FBBG2RZ5WYS)

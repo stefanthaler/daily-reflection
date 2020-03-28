@@ -234,6 +234,32 @@ def delete_questions(time, data_base):
             return
 
 def change_order(time, data_base):
+    # load existing questions
+    action=""
+    while True:
+        clear_screen()
+        # get old questions
+        questions=get_questions(time, data_base)
+        if (len(questions)==0):
+            clear_screen()
+            print("No questions for %s stored."%time )
+            return
+        # get new question
+        move_question = [{
+            'type': 'rawlist',
+            'name': 'action',
+            'message': 'Which question do you want to move?',
+            'choices': [q["text"] for q in questions] + [
+                Separator(),
+                "Abort"
+            ]
+        }]
+        move_question_from=prompt(move_question)["action"]
+
+        if move_question_from == "Abort":
+            clear_screen()
+            print("Aborted order change.\n")
+            return
     pass
 
 def export_data(data_base):

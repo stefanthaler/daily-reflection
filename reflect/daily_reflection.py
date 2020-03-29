@@ -235,15 +235,19 @@ def delete_questions(time, data_base):
         if action=="Back":
             return
 
+def get_pos(questions, question_text ):
+    for i,q in enumerate(questions):
+        if question_text==q["text"]:
+            return i
+
 def change_order(time, data_base):
     # load existing questions
     action=""
+    clear_screen()
     while True:
-        clear_screen()
+
         # get old questions
         questions=get_questions(time, data_base)
-        print(questions)
-        0/0
         if (len(questions)<=1):
             clear_screen()
             print("No or too few questions for %s reflection stored. Add more reflections to change the order."%time )
@@ -258,7 +262,11 @@ def change_order(time, data_base):
                 "Abort"
             ]
         }]
-        move_question_from=prompt(move_question)
+        move_question_from=prompt(move_question)["action"]
+        if move_question_from == "Abort":
+            clear_screen()
+            print("Aborted order change.\n")
+            return
 
         # get new question
         move_question = [{
@@ -270,20 +278,23 @@ def change_order(time, data_base):
                 "Abort"
             ]
         }]
-        move_question_to=prompt(move_question)
+        move_question_to=prompt(move_question)["action"]
 
         if move_question_to == "Abort":
             clear_screen()
             print("Aborted order change.\n")
             return
+        # move question
+        from_index = get_pos(questions,move_question_from)
+        to_index = get_pos(questions,move_question_to)
+        questions.insert(to_index, questions.pop(from_index))
 
-        print(move_question_from, move_question_to)
-
-
+        # update in database
         Questions=Query()
         data_base.update({'questions':questions}, Questions.time == time)
+        clear_screen()
+        print("Question moved.\n")
 
-        0/0
 
 
 def export_data(data_base):

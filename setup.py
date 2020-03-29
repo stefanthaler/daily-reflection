@@ -3,7 +3,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 setuptools.setup(
      name='daily-reflection',
-     version='0.0.2',
+     version='0.0.4',
      scripts=['daily-reflection'] ,
      author="Stefan Thaler",
      author_email="bruthaler@gmail.com",

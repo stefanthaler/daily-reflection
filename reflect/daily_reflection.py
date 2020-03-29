@@ -125,6 +125,8 @@ def get_questions(time, data_base):
         questions=[]
     else:
         questions=[q for q in questions[0]["questions"] if not q["deleted"]]
+
+    # todo add sort order     
     return questions
 
 
@@ -240,9 +242,9 @@ def change_order(time, data_base):
         clear_screen()
         # get old questions
         questions=get_questions(time, data_base)
-        if (len(questions)==0):
+        if (len(questions)<=1):
             clear_screen()
-            print("No questions for %s stored."%time )
+            print("No or too few questions for %s reflection stored. Add more reflections to change the order."%time )
             return
         # get new question
         move_question = [{
@@ -254,13 +256,28 @@ def change_order(time, data_base):
                 "Abort"
             ]
         }]
-        move_question_from=prompt(move_question)["action"]
+        move_question_from=prompt(move_question)
 
-        if move_question_from == "Abort":
+        # get new question
+        move_question = [{
+            'type': 'rawlist',
+            'name': 'action',
+            'message': 'To which position do you want to move your question to?',
+            'choices': [q["text"] for q in questions] + [
+                Separator(),
+                "Abort"
+            ]
+        }]
+        move_question_to=prompt(move_question)
+
+        if move_question_to == "Abort":
             clear_screen()
             print("Aborted order change.\n")
             return
-    pass
+
+        print(move_question_from, move_question_to)
+        0/0
+
 
 def export_data(data_base):
     pass

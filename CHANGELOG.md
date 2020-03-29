@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - export answers
 - change password for db
 
+## [0.0.4] - 2020-03-29
+- Add "change order of questions" functionality 
+
 ## [0.0.3] - 2020-03-11
 ## Changed
 - restructured files to be executable in pip package

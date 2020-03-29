@@ -126,7 +126,7 @@ def get_questions(time, data_base):
     else:
         questions=[q for q in questions[0]["questions"] if not q["deleted"]]
 
-    # todo add sort order     
+    # todo add sort order
     return questions
 
 
@@ -242,6 +242,8 @@ def change_order(time, data_base):
         clear_screen()
         # get old questions
         questions=get_questions(time, data_base)
+        print(questions)
+        0/0
         if (len(questions)<=1):
             clear_screen()
             print("No or too few questions for %s reflection stored. Add more reflections to change the order."%time )
@@ -276,6 +278,11 @@ def change_order(time, data_base):
             return
 
         print(move_question_from, move_question_to)
+
+
+        Questions=Query()
+        data_base.update({'questions':questions}, Questions.time == time)
+
         0/0
 
 

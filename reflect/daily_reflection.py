@@ -37,6 +37,23 @@ pwd_questions = [
     }
 ]
 
+new_pwd_questions = [
+    {
+        'type': 'password',
+        'message': 'Enter your new encryption key',
+        'name': 'password'
+    }
+]
+
+repeat_new_pwd_questions = [
+    {
+        'type': 'password',
+        'message': 'Repeat your new encryption key',
+        'name': 'password'
+    }
+]
+
+
 
 main_menu_questions = [
     {
@@ -50,6 +67,8 @@ main_menu_questions = [
             'Modify Questions',
             'Change Question Order',
             'Delete Questions',
+            Separator(),
+            "Change Password"
             Separator(),
             'Quit'
         ]
@@ -295,7 +314,23 @@ def change_order(time, data_base):
         clear_screen()
         print("Question moved.\n")
 
+def change_password(data_base):
+    action=""
+    clear_screen()
 
+    encryption_key = prompt(pwd_questions, style=custom_style_2)["password"]
+    new_encryption_key1 = prompt(new_pwd_questions, style=custom_style_2)["password"]
+    new_encryption_key2 = prompt(new_pwd_questions, style=custom_style_2)["password"]
+
+    if not (new_encryption_key==new_encryption_key2):
+        print("New passwords don't match, aborting.")
+        return
+
+    # try opening db
+
+
+
+    #db = TinyDB(encryption_key=encryption_key, path=join_path(str(Path.home()),".reflect.db"), storage=EncryptedJSONStorage)
 
 def export_data(data_base):
     pass
@@ -398,3 +433,5 @@ def reflection_menu():
             change_order(time, db)
         elif action=="Delete Questions":
             delete_questions(time, db)
+        elif action=="Change Password":
+            change_password(db)

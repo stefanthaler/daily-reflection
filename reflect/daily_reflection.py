@@ -67,8 +67,7 @@ main_menu_questions = [
             'Modify Questions',
             'Change Question Order',
             'Delete Questions',
-            Separator(),
-            "Change Password"
+            'Change Password',
             Separator(),
             'Quit'
         ]
@@ -314,11 +313,21 @@ def change_order(time, data_base):
         clear_screen()
         print("Question moved.\n")
 
-def change_password(data_base):
+def change_password():
     action=""
     clear_screen()
 
     encryption_key = prompt(pwd_questions, style=custom_style_2)["password"]
+
+    try:
+        from os.path import join as join_path
+        db_old_pw = TinyDB(encryption_key=encryption_key, path=join_path(str(Path.home()),".reflect.db"), storage=EncryptedJSONStorage)
+    except:
+        print("Password wrong, aborting.")
+        return
+
+    print(db_old_pw.all())
+    0/0
     new_encryption_key1 = prompt(new_pwd_questions, style=custom_style_2)["password"]
     new_encryption_key2 = prompt(new_pwd_questions, style=custom_style_2)["password"]
 
@@ -326,11 +335,16 @@ def change_password(data_base):
         print("New passwords don't match, aborting.")
         return
 
-    # try opening db
+    try:
+        from os.path import join as join_path
+        db_new_pw = TinyDB(encryption_key=new_encryption_key1, path=join_path(str(Path.home()),".reflect.db"), storage=EncryptedJSONStorage)
+    except:
+        print("Error opening database with new password, aborting.")
+        return
 
+    # copy from old to new
+    db_new_pw.write(db_old_pw.all())
 
-
-    #db = TinyDB(encryption_key=encryption_key, path=join_path(str(Path.home()),".reflect.db"), storage=EncryptedJSONStorage)
 
 def export_data(data_base):
     pass
@@ -419,6 +433,9 @@ def reflection_menu():
         action = prompt(main_menu_questions)["mm_action"]
         clear_screen()
         if action=="Quit": break
+        if action=="Change Password":
+            change_password()
+            break
 
         time = prompt(time_questions)["time"]
         if time=="Back": continue
@@ -433,5 +450,3 @@ def reflection_menu():
             change_order(time, db)
         elif action=="Delete Questions":
             delete_questions(time, db)
-        elif action=="Change Password":
-            change_password(db)

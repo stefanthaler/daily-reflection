@@ -313,37 +313,54 @@ def change_order(time, data_base):
         clear_screen()
         print("Question moved.\n")
 
-def change_password():
+def change_password(): ##TODO  Move to encrypted file storage
+    from os.path import join as join_path
     action=""
+    old_db_path = join_path(str(Path.home()),".reflect.db")
+    new_db_path =join_path(str(Path.home()),"._reflect_new.db")
     clear_screen()
 
     encryption_key = prompt(pwd_questions, style=custom_style_2)["password"]
 
     try:
         from os.path import join as join_path
-        db_old_pw = TinyDB(encryption_key=encryption_key, path=join_path(str(Path.home()),".reflect.db"), storage=EncryptedJSONStorage)
+        db_old_pw = TinyDB(encryption_key=encryption_key, path=old_db_path, storage=EncryptedJSONStorage)
     except:
         print("Password wrong, aborting.")
         return
 
-    print(db_old_pw.all())
-    0/0
     new_encryption_key1 = prompt(new_pwd_questions, style=custom_style_2)["password"]
     new_encryption_key2 = prompt(new_pwd_questions, style=custom_style_2)["password"]
 
-    if not (new_encryption_key==new_encryption_key2):
+    if not (new_encryption_key1==new_encryption_key2):
         print("New passwords don't match, aborting.")
         return
 
     try:
         from os.path import join as join_path
-        db_new_pw = TinyDB(encryption_key=new_encryption_key1, path=join_path(str(Path.home()),".reflect.db"), storage=EncryptedJSONStorage)
+        db_new_pw = TinyDB(encryption_key=new_encryption_key1, path=new_db_path, storage=EncryptedJSONStorage)
     except:
         print("Error opening database with new password, aborting.")
         return
 
     # copy from old to new
-    db_new_pw.write(db_old_pw.all())
+    try:
+        import shutil
+        db_new_pw.insert_multiple(db_old_pw.all())
+        shutil.copyfile(new_db_path, old_db_path)
+    except:
+        import sys
+        import traceback
+        print("WARNING: could not write database: ", sys.exc_info()[0])
+        traceback.print_tb(sys.exc_info()[2])
+        0/0
+    finally:
+        os.remove(new_db_path)
+
+    print("Password successfully changed")
+
+
+
 
 
 def export_data(data_base):
@@ -428,14 +445,14 @@ def modify_questions(time, data_base):
 
 
 def reflection_menu():
-    action = ""
+    action = "" # action has to be the same as the name of the action TODO refactor
     while True:
         action = prompt(main_menu_questions)["mm_action"]
         clear_screen()
         if action=="Quit": break
         if action=="Change Password":
             change_password()
-            break
+            continue
 
         time = prompt(time_questions)["time"]
         if time=="Back": continue

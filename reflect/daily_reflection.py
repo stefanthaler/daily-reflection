@@ -313,51 +313,21 @@ def change_order(time, data_base):
         clear_screen()
         print("Question moved.\n")
 
-def change_password(): ##TODO  Move to encrypted file storage
+def change_password(data_base): ##TODO  Move to encrypted file storage
     from os.path import join as join_path
     action=""
-    old_db_path = join_path(str(Path.home()),".reflect.db")
-    new_db_path =join_path(str(Path.home()),"._reflect_new.db")
-    clear_screen()
-
-    encryption_key = prompt(pwd_questions, style=custom_style_2)["password"]
-
-    try:
-        from os.path import join as join_path
-        db_old_pw = TinyDB(encryption_key=encryption_key, path=old_db_path, storage=EncryptedJSONStorage)
-    except:
-        print("Password wrong, aborting.")
-        return
 
     new_encryption_key1 = prompt(new_pwd_questions, style=custom_style_2)["password"]
-    new_encryption_key2 = prompt(new_pwd_questions, style=custom_style_2)["password"]
+    new_encryption_key2 = prompt(repeat_new_pwd_questions, style=custom_style_2)["password"]
 
     if not (new_encryption_key1==new_encryption_key2):
         print("New passwords don't match, aborting.")
         return
 
-    try:
-        from os.path import join as join_path
-        db_new_pw = TinyDB(encryption_key=new_encryption_key1, path=new_db_path, storage=EncryptedJSONStorage)
-    except:
-        print("Error opening database with new password, aborting.")
-        return
-
-    # copy from old to new
-    try:
-        import shutil
-        db_new_pw.insert_multiple(db_old_pw.all())
-        shutil.copyfile(new_db_path, old_db_path)
-    except:
-        import sys
-        import traceback
-        print("WARNING: could not write database: ", sys.exc_info()[0])
-        traceback.print_tb(sys.exc_info()[2])
-        0/0
-    finally:
-        os.remove(new_db_path)
-
-    print("Password successfully changed")
+    if data_base.storage.change_encryption_key(new_encryption_key1):
+        print("Password successfully changed\n")
+    else:
+        print("Error, password was not changed.\n")
 
 
 
@@ -451,7 +421,7 @@ def reflection_menu():
         clear_screen()
         if action=="Quit": break
         if action=="Change Password":
-            change_password()
+            change_password(db)
             continue
 
         time = prompt(time_questions)["time"]

@@ -2,11 +2,15 @@ from tinydb.storages import Storage, touch
 from typing import Dict, Any, Optional
 import json
 import os
+from os.path import join as join_path
 from Crypto.Cipher import AES
 from Crypto import Random
 from Crypto.Hash import SHA256
 import shutil
 import sys
+import traceback
+import shutil
+from tinydb import TinyDB
 
 class EncryptedJSONStorage(Storage):
     """
@@ -31,8 +35,8 @@ class EncryptedJSONStorage(Storage):
         h = SHA256.new()
         h.update(str.encode(encryption_key))
         self.encryption_key = h.digest()
-
         self._handle = open(path, 'rb+', encoding=encoding)
+        self.encoding = encoding
         self.path=path
         self.chunk_size=64
 
@@ -105,11 +109,49 @@ class EncryptedJSONStorage(Storage):
             os.fsync(self._handle.fileno())
             self._handle.truncate()
         except:
-            import sys
-            import traceback
+
             print("WARNING: could not write database: ", sys.exc_info()[0])
             shutil.copyfile(self.path+"_backup", self.path)
             traceback.print_tb(sys.exc_info()[2])
             0/0
         finally:
             os.remove(self.path+"_backup")
+
+
+    def change_encryption_key(self, new_encryption_key):
+        new_db_path = self.path + "_clone"
+
+        try:
+            db_new_pw = TinyDB(encryption_key=new_encryption_key, path=new_db_path, storage=EncryptedJSONStorage)
+
+        except:
+            print("Error opening database with new password, aborting.", sys.exc_info()[0])
+            print("Error: ", sys.exc_info()[1])
+            traceback.print_tb(sys.exc_info()[2])
+            return False
+
+        try:
+            # copy from old to new
+            self._handle.flush()
+            db_new_pw.storage.write(self.read())
+            self._handle.close()
+
+            # copy new over old
+            shutil.copyfile(new_db_path, self.path)
+
+            # reset encryption handle
+            self.encryption_key=new_encryption_key
+            h = SHA256.new()
+            h.update(str.encode(self.encryption_key))
+            self.encryption_key = h.digest()
+            self._handle = open(self.path, 'rb+', encoding=self.encoding)
+
+            success=True
+        except:
+            print("WARNING: could not write database: ", sys.exc_info()[0])
+            print("Error: ", sys.exc_info()[1])
+            traceback.print_tb(sys.exc_info()[2])
+            success=False
+        finally:
+            os.remove(new_db_path)
+        return success

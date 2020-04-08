@@ -8,9 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - browse answers
 - statistics
 - export answers
-- refactor database to use for tiny db tables
 
-## [0.0.5] - 2020-04-06
+## [0.0.5] - 2020-04-07
 - change password for db
 
 ## [0.0.4] - 2020-03-29
@@ -20,7 +19,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Changed
 - restructured files to be executable in pip package
 - fixed behavior when submitting an empty question.
-
 
 ## [0.0.2] - 2020-03-10
 ## Added

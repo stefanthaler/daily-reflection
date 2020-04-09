@@ -48,9 +48,15 @@ def reflection_menu():
         if action=="Change Password":
             change_password(db)
             continue
+        if action== "Export":
+            export(db)
+            continue
 
+
+        # Time based questions
         time = prompt(time_questions)["time"]
-        if time=="Back": continue
+        if time=="Back":
+            continue
 
         if action=="Reflection":
             do_reflection(time, db)

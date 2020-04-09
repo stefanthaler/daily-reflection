@@ -32,12 +32,12 @@ main_menu_questions = [
         'message': 'What do you want to do?',
         'choices': [
             'Reflection',
-            Separator(),
             'Add Questions',
             'Modify Questions',
             'Change Question Order',
             'Delete Questions',
             'Change Password',
+            'Export',
             Separator(),
             'Quit'
         ]

@@ -263,3 +263,8 @@ def modify_questions(time, data_base):
         action = prompt(continue_mod_question)["action"]
         if action=="Back":
             return
+"""
+    Exports all answers to a text file
+"""
+def export(data_base):
+    pass

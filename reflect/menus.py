@@ -48,7 +48,7 @@ time_questions = [{
     'name': 'time',
     'message': 'Morning/Evening?',
     'choices': [
-        'Morning',
+        'Morning', # TODO refactor to create enum
         'Evening',
         'Back'
     ]

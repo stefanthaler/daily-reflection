@@ -151,8 +151,6 @@ def delete_questions(time, data_base):
         if action=="Back":
             return
 
-
-
 def change_order(time, data_base):
     # load existing questions
     action=""
@@ -207,9 +205,6 @@ def change_password(data_base): ##TODO  Move to encrypted file storage
         print("Password successfully changed\n")
     else:
         print("Error, password was not changed.\n")
-
-def export_data(data_base):
-    pass
 
 def modify_questions(time, data_base):
     # load existing questions
@@ -267,4 +262,17 @@ def modify_questions(time, data_base):
     Exports all answers to a text file
 """
 def export(data_base):
+    outfile = join_path(join_path(str(Path.home()),"exported_reflections_%s.txt"%today()) )
+    morning_questions = get_questions("Morning", data_base)
+    evening_questions = get_questions("Evening", data_base)
+
+    # get all answer
+    
+    # sort them by day, morning and evening
+
+    # open file
+
+        # write answers
+
+    print("Your reflections were exported to '%s'\n"%outfile)
     pass

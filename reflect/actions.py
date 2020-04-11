@@ -11,6 +11,7 @@ import os
 import datetime
 import uuid # creating unique id's for storage
 from pathlib import Path # for finding user's home
+from os.path import join as join_path
 
 
 def today():
@@ -267,12 +268,24 @@ def export(data_base):
     evening_questions = get_questions("Evening", data_base)
 
     # get all answer
-    
-    # sort them by day, morning and evening
+    Answers = Query()
+    answers = data_base.search( Answers.type=="reflection")
+    dates = sorted(set([a['date'] for a in answers] ))
 
-    # open file
+    # create a dictionary [date][time] answers 
 
-        # write answers
+    pprint(answers)
+    with open(outfile, "w+") as f:
+        for d  in dates:
+            f.write(d[0:4]+"-"+d[4:6]+"-"+d[6:]+"\n")
+            f.write("==========\n")
+                # Morning
+                # Evening
+                    # if question has an answer
+                        # write
+
+            f.write("\n\n")
+
 
     print("Your reflections were exported to '%s'\n"%outfile)
     pass

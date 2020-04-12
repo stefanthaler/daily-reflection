@@ -264,25 +264,40 @@ def modify_questions(time, data_base):
 """
 def export(data_base):
     outfile = join_path(join_path(str(Path.home()),"exported_reflections_%s.txt"%today()) )
-    morning_questions = get_questions("Morning", data_base)
-    evening_questions = get_questions("Evening", data_base)
+    questions = {}
+    questions["Morning"] = get_questions("Morning", data_base)
+    questions["Evening"] = get_questions("Evening", data_base)
 
     # get all answer
     Answers = Query()
     answers = data_base.search( Answers.type=="reflection")
     dates = sorted(set([a['date'] for a in answers] ))
 
-    # create a dictionary [date][time] answers 
+    # create a dictionary [date][time] answers
+    answers_by_date = {}
+    for a in answers:
+        if not a["date"] in answers_by_date:
+            answers_by_date[a["date"]]={}
+        answers_by_date[a["date"]][a["time"]]=a
 
-    pprint(answers)
+
     with open(outfile, "w+") as f:
         for d  in dates:
+            if not d in answers_by_date:
+                continue
+
             f.write(d[0:4]+"-"+d[4:6]+"-"+d[6:]+"\n")
             f.write("==========\n")
-                # Morning
-                # Evening
-                    # if question has an answer
-                        # write
+
+            for t in ["Morning","Evening"]:
+                if t in answers_by_date[d]:
+                    f.write("\t%s:\n"%(t))
+                    for q in questions[t]:
+                        if q["id"] in answers_by_date[d][t]:
+                            f.write("\t\t")
+                            f.write(q["text"]+"\t\t")
+                            f.write(answers_by_date[d][t][q["id"]]+"\n")
+                    f.write("\n")
 
             f.write("\n\n")
 

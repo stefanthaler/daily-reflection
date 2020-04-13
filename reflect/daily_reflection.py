@@ -17,6 +17,8 @@ import datetime
 import uuid # creating unique id's for storage
 from pathlib import Path # for finding user's home
 
+VERSION="0.0.6"
+
 style = style_from_dict({
     Token.Separator: '#cc5454',
     Token.QuestionMark: '#673ab7 bold',
@@ -30,6 +32,7 @@ style = style_from_dict({
 
 # get password
 clear_screen()
+print("Daily Reflection, v%s"%VERSION)
 encryption_key = prompt(pwd_questions, style=custom_style_2)["password"]
 
 try:

@@ -10,7 +10,7 @@ setuptools.setup(
      description="A small command-line tool that helps you conduct your daily morning/evening reflection.",
      long_description=long_description,
    long_description_content_type="text/markdown",
-     url="https://github.com/stefanthaler/protonmaildaily-reflection",
+     url="https://github.com/stefanthaler/maildaily-reflection",
      packages=setuptools.find_packages(),
      install_requires=[
           'tinydb',

@@ -304,3 +304,6 @@ def export(data_base):
 
     print("Your reflections were exported to '%s'\n"%outfile)
     pass
+
+def view_day(data_base, date):
+    pass

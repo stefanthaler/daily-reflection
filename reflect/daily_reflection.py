@@ -47,6 +47,7 @@ def reflection_menu():
     while True:
         action = prompt(main_menu_questions)["mm_action"]
         clear_screen()
+        view_day(today(), db)
         if action=="Quit": break
         if action=="Change Password":
             change_password(db)

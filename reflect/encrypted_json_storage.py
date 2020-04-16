@@ -78,6 +78,9 @@ class EncryptedJSONStorage(Storage):
 
     def write(self, data: Dict[str, Dict[str, Any]]):
         # backup old db
+        self._handle.flush()
+        os.fsync(self._handle.fileno())
+        self._handle.truncate()
         shutil.copyfile(self.path, self.path+"_backup")
 
         try:

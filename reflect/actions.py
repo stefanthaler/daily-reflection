@@ -38,8 +38,7 @@ def do_reflection(time, data_base):
 
     #load answers for today if they are there
     Answers = Query()
-    today = datetime.date.today().strftime("%Y%m%d")
-    old_answers = data_base.search( (Answers.time == time) & (Answers.date==today) & (Answers.type=="reflection") )
+    old_answers = data_base.search( (Answers.time == time) & (Answers.date==today()) & (Answers.type=="reflection") )
     old_answers = (old_answers[0] if len(old_answers)>0 else {})
 
     # store answers for today in database
@@ -55,12 +54,12 @@ def do_reflection(time, data_base):
     res = prompt(ref_qs)
     res["time"]=time
     res["type"]="reflection"
-    res["date"]=today
+    res["date"]=today()
 
     if len(old_answers)==0:
         data_base.insert(res)
     else:
-        data_base.update(res, (Answers.time == time) & (Answers.date==today) & (Answers.type=="reflection") )
+        data_base.update(res, (Answers.time == time) & (Answers.date==today()) & (Answers.type=="reflection") )
     print("%s-reflection stored.\n"%time)
 
 def get_questions(time, data_base):
@@ -305,5 +304,39 @@ def export(data_base):
     print("Your reflections were exported to '%s'\n"%outfile)
     pass
 
-def view_day(data_base, date):
-    pass
+def view_day(date,data_base):
+    # load questions from database
+    morning_questions = get_questions("Morning", data_base)
+    evening_questions = get_questions("Evening", data_base)
+    questions = {
+        "Morning":morning_questions,
+        "Evening":evening_questions
+    }
+
+    #load answers for date if they are there
+    Answers = Query()
+    morning_answers = data_base.search( (Answers.time == "Morning") & (Answers.date==date) & (Answers.type=="reflection") )
+    morning_answers = (morning_answers[0] if len(morning_answers)>0 else {})
+
+    evening_answers = data_base.search( (Answers.time == "Evening") & (Answers.date==date) & (Answers.type=="reflection") )
+    evening_answers = (evening_answers[0] if len(evening_answers)>0 else {})
+    answers_by_date = {
+        "Morning":morning_answers,
+        "Evening":evening_answers
+    }
+
+    # TODO add color scheme
+    # print questions and answers for that day
+    print(date[0:4]+"-"+date[4:6]+"-"+date[6:])
+    print("==========\n")
+
+    for t in ["Morning","Evening"]:
+        if t in answers_by_date:
+            print("\t%s:"%(t))
+            for q in questions[t]:
+                if q["id"] in answers_by_date[t]:
+                    print("\t\t"+q["text"])
+                    print("\t\t\t"+answers_by_date[t][q["id"]])
+            print("")
+
+    print("\n")

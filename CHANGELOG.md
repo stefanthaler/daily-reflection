@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 # [Planned features]
 - browse answers
 - statistics
+- rewrite using prompt toolkit https://python-prompt-toolkit.readthedocs.io/en/master/
 
 # [0.0.6] - 2020-04-13
 ## Added

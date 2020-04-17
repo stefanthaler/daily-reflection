@@ -340,3 +340,30 @@ def view_day(date,data_base):
             print("")
 
     print("\n")
+
+def change_date(current_date, offset_in_days):
+    from datetime import datetime,timedelta
+    offset = timedelta(days=offset_in_days)
+    current_date = datetime.strptime(current_date,"%Y%m%d")
+    current_date = current_date + offset
+    return current_date.strftime("%Y%m%d")
+
+def browse(current_date, data_base ):
+
+    while True:
+        # today
+        clear_screen()
+        view_day(current_date, data_base)
+        print("")
+        # show menu
+        action = prompt(browse_question)["action"]
+        if action=="Back":
+            return
+        elif action=="Previous Day":
+            current_date = change_date(current_date, -1)
+            continue
+        elif action=="Next Day":
+            current_date = change_date(current_date, 1)
+            continue
+        elif action == "Goto Day":
+            pass

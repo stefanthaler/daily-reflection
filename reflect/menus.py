@@ -27,24 +27,28 @@ repeat_new_pwd_questions = [
 
 main_menu_questions = [
     {
-        'type': 'rawlist',
-        'name': 'mm_action',
         'message': 'What do you want to do?',
+        'name': 'mm_action',
+        'type': 'list',
+        'default':'r',
         'choices': [
-            'Reflection',
-            'Add Questions',
-            'Modify Questions',
-            'Change Question Order',
-            'Delete Questions',
-            'Change Password',
-            'Export',
+            {"key":"r","name":"Reflection", "value":"Reflection"},
             Separator(),
-            'Quit'
+            {"key":"a","name":"Add Questions", "value":"Add Questions"},
+            {"key":"m","name":"Modify Questions", "value":"Modify Questions"},
+            {"key":"o","name":"Change Question Order", "value":"Change Question Order"},
+            {"key":"d","name":"Delete Questions", "value":"Delete Questions"},
+            Separator(),
+            {"key":"c","name":"Change Password", "value":"Change Password"},
+            {"key":"b","name":"Browse", "value":"Browse"},
+            {"key":"e","name":"Export", "value":"Export"},
+            Separator(),
+            {"key":"q","name":"Quit", "value":"Quit"},
         ]
     },
 ]
 time_questions = [{
-    'type': 'rawlist',
+    'type': 'list',
     'name': 'time',
     'message': 'Morning/Evening?',
     'choices': [
@@ -143,3 +147,18 @@ continue_mod_question = [{
         'Back'
     ]
 }]
+
+browse_question = [
+    {
+        'type': 'list',
+        'name': 'action',
+        'message': 'What do you want to do?',
+        'choices': [
+            'Previous Day',
+            'Next Day',
+            'Goto Day',
+            'Back'
+        ]
+    }
+
+]

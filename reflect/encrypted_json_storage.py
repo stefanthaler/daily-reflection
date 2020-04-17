@@ -112,11 +112,9 @@ class EncryptedJSONStorage(Storage):
             os.fsync(self._handle.fileno())
             self._handle.truncate()
         except:
-
             print("WARNING: could not write database: ", sys.exc_info()[0])
             shutil.copyfile(self.path+"_backup", self.path)
             traceback.print_tb(sys.exc_info()[2])
-            0/0
         finally:
             os.remove(self.path+"_backup")
 

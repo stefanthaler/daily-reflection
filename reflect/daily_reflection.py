@@ -45,15 +45,18 @@ except:
 def reflection_menu():
     action = "" # action has to be the same as the name of the action TODO refactor
     while True:
-        action = prompt(main_menu_questions)["mm_action"]
-        clear_screen()
+        action = prompt(main_menu_questions, style=custom_style_2)["mm_action"]
         view_day(today(), db)
+        clear_screen()
         if action=="Quit": break
         if action=="Change Password":
             change_password(db)
             continue
         if action== "Export":
             export(db)
+            continue
+        if action== "Browse":
+            browse( today(), db )
             continue
 
 

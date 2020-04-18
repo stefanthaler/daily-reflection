@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - statistics
 - rewrite using prompt toolkit https://python-prompt-toolkit.readthedocs.io/en/master/
 
+# [0.0.7]
+# Added
+- browse answers
+
+# Changed
+- extracted tiny db encrypted JSON store
+- changed some menus to list 
+
+
+
 # [0.0.6] - 2020-04-13
 ## Added
 - export answers

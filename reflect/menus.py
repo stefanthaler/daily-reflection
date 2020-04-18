@@ -162,3 +162,12 @@ browse_question = [
     }
 
 ]
+
+browse_question_day = [
+    {
+        'type': 'input',
+        'name': 'browse_date',
+        'message': 'Which day do you want to view (format: "YYYY-MM-DD")?',
+    }
+
+]

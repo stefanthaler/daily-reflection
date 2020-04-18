@@ -366,4 +366,6 @@ def browse(current_date, data_base ):
             current_date = change_date(current_date, 1)
             continue
         elif action == "Goto Day":
+            browse_date = prompt(browse_question_day)["browse_date"]
+            # TODO continue here
             pass

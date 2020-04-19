@@ -8,14 +8,14 @@ from reflect.menus import *
 from reflect.actions import *
 import sys
 import os
-import datetime
 import uuid # creating unique id's for storage
 from pathlib import Path # for finding user's home
 from os.path import join as join_path
+from datetime import datetime,timedelta
 
 
 def today():
-    return datetime.datetime.now().strftime("%Y%m%d")
+    return datetime.now().strftime("%Y%m%d")
 
 def clear_screen():
     os.system('cls')
@@ -342,7 +342,7 @@ def view_day(date,data_base):
     print("\n")
 
 def change_date(current_date, offset_in_days):
-    from datetime import datetime,timedelta
+
     offset = timedelta(days=offset_in_days)
     current_date = datetime.strptime(current_date,"%Y%m%d")
     current_date = current_date + offset
@@ -367,5 +367,9 @@ def browse(current_date, data_base ):
             continue
         elif action == "Goto Day":
             browse_date = prompt(browse_question_day)["browse_date"]
-            # TODO continue here
-            pass
+            try:
+                datetime.strptime(browse_date,"%Y%m%d") #check if formatted correctly 
+                current_date = browse_date
+            except:
+                print("Invalid date, use format YYYYMMDD, e.g. 20200420")
+            continue

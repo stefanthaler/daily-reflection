@@ -3,7 +3,6 @@ from PyInquirer import prompt, style_from_dict, Token, Separator, print_json
 from examples import custom_style_2
 from pprint import pprint
 from tinydb import TinyDB, where, Query
-from reflect.encrypted_json_storage import EncryptedJSONStorage
 from reflect.menus import *
 from reflect.actions import *
 import sys
@@ -368,7 +367,7 @@ def browse(current_date, data_base ):
         elif action == "Goto Day":
             browse_date = prompt(browse_question_day)["browse_date"]
             try:
-                datetime.strptime(browse_date,"%Y%m%d") #check if formatted correctly 
+                datetime.strptime(browse_date,"%Y%m%d") #check if formatted correctly
                 current_date = browse_date
             except:
                 print("Invalid date, use format YYYYMMDD, e.g. 20200420")

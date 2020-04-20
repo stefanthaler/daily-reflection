@@ -8,7 +8,7 @@ from PyInquirer import prompt, style_from_dict, Token, Separator, print_json
 from examples import custom_style_2
 from pprint import pprint
 from tinydb import TinyDB, where, Query
-from reflect.encrypted_json_storage import EncryptedJSONStorage
+import tinydb_encrypted_jsonstorage as tae
 from reflect.menus import *
 from reflect.actions import *
 import sys
@@ -37,7 +37,7 @@ encryption_key = prompt(pwd_questions, style=custom_style_2)["password"]
 
 try:
     from os.path import join as join_path
-    db = TinyDB(encryption_key=encryption_key, path=join_path(str(Path.home()),".reflect.db"), storage=EncryptedJSONStorage)
+    db = TinyDB(encryption_key=encryption_key, path=join_path(str(Path.home()),".reflect.db"), storage=tae.EncryptedJSONStorage)
 except:
     print("Error loading DB, probably wrong encryption key",sys.exc_info()[0], sys.exc_info()[1])
     sys.exit(0)

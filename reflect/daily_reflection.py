@@ -17,7 +17,7 @@ import datetime
 import uuid # creating unique id's for storage
 from pathlib import Path # for finding user's home
 
-VERSION="0.0.6"
+VERSION="0.1.0"
 
 style = style_from_dict({
     Token.Separator: '#cc5454',

@@ -5,15 +5,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 # [Planned features]
-- browse answers
 - statistics
-- rewrite using prompt toolkit https://python-prompt-toolkit.readthedocs.io/en/master/
+- rewrite using prompt toolkit https://python-prompt-toolkit.readthedocs.io/en/master/ to enable selecting menus without pressing enter
+
+# [0.1.1]
+## Changed
+* added encrypted db dependency to setup file 
 
 # [0.1.0]
-# Added
+## Added
 - browse answers
 
-# Changed
+## Changed
 - extracted tiny db encrypted JSON store
 - changed some menus to list
 

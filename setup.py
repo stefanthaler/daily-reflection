@@ -16,6 +16,7 @@ setuptools.setup(
           'tinydb',
           'pyinquirer',
           'pycryptodome',
+          "tinydb-encrypted-jsonstorage"
      ],
      classifiers=[
          "Programming Language :: Python :: 3",

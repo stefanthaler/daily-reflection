@@ -1,4 +1,5 @@
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=C8FBBG2RZ5WYS&currency_code=EUR&source=url)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # Daily Reflection
 A small python, command line tool that helps you conduct your daily self-reflection, morning and or evening. It allows you to define questions that you want to ask to your selves and stores your daily answers in a password protected storage.
@@ -34,6 +35,7 @@ daily-reflection
 * [PyInquirer](https://github.com/CITGuru/PyInquirer)
 * [TinyDB](https://tinydb.readthedocs.io/en/latest/getting-started.html)
 * [tinydb-encrypted-jsonstorage](https://github.com/stefanthaler/tinydb-encrypted-jsonstorage)
+* [ptpython ](https://github.com/prompt-toolkit/python-prompt-toolkit)
 
 # Python Dependencies Building:
 * [setuptools](https://packaging.python.org/tutorials/installing-packages/)
@@ -43,4 +45,4 @@ daily-reflection
 
 # Thanks to:
 * Deepak Kumar for his tutorial on how to publish your python package on pip, https://dzone.com/articles/executable-package-pip-install
-* Shields.io, for providing the github paypal button: https://shields.io/
+* Shields.io, for providing the github paypal and the MIT  license button: https://shields.io/

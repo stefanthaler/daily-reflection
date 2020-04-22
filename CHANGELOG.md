@@ -7,10 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 # [Planned features]
 - statistics
 - rewrite using prompt toolkit https://python-prompt-toolkit.readthedocs.io/en/master/ to enable selecting menus without pressing enter
+- rewrite browsing for proper formatting 
 
 # [0.1.1]
 ## Changed
-* added encrypted db dependency to setup file 
+* added encrypted db dependency to setup file
 
 # [0.1.0]
 ## Added

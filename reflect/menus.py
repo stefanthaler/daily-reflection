@@ -1,6 +1,5 @@
 from PyInquirer import  Separator
 
-
 pwd_questions = [
     {
         'type': 'password',

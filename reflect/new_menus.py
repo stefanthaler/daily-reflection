@@ -22,30 +22,40 @@ style = Style.from_dict({
     'path':     'ansicyan underline',
 })
 
-message = [
-    ('class:username', 'johndo'),
-    ('class:at',       '@'),
-]
+# message = [
+#     ('class:username', 'johndo'),
+#     ('class:at',       '@'),
+# ]
+def get_menu(menu_items):
+    message = []
+    for m in menu_items:
+        message.append( ('class:username', "(%s)" %m["key"]) )
+        message.append( ('class:host'   , "%s \n"%m["text"]) )
+    return message
 
-
-
-if __name__ == "__main__":
+def main_menu():
     bindings = KeyBindings()
 
-    # @Condition
-    # def is_active():
-    #     " Only activate key binding on the second half of each minute. "
-    #     return datetime.datetime.now().second > 30
+    menu_items = [
+        {"key":"r", "text":"Do reflection"},
+        {"key":"a", "text":"Add Questions"},
+        {"key":"q", "text":"Quit"}
+    ]
+    message = get_menu(menu_items)
+
 
     @bindings.add('<any>')
     def _(event):
-        print(event)
-        pass
-    # @bindings.add('c-m')
-    # def _(event):
-    #     print("Enter",event)
-    #     pass
-# wait for keypress
+        print("here",event.app)
+        #key_pressed = event.key
+        event.app.exit()
+
+
+
     session = PromptSession()
     while True:
         session.prompt(message, style=style, key_bindings=bindings)
+        print("here2",session.app)
+
+
+main_menu()

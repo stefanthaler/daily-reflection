@@ -13,13 +13,8 @@ style = Style.from_dict({
     # User input (default text).
     '':          '#ff0066',
 
-    # Prompt.
-    'username': '#884444',
-    'at':       '#00aa00',
-    'colon':    '#0000aa',
-    'pound':    '#00aa00',
-    'host':     '#00ffff bg:#444400',
-    'path':     'ansicyan underline',
+    'key': '#FFC107', #material amber
+    'menu_item':'#FFF',
 })
 
 # message = [
@@ -29,9 +24,12 @@ style = Style.from_dict({
 def get_menu(menu_items):
     message = []
     for m in menu_items:
-        message.append( ('class:username', "(%s)" %m["key"]) )
-        message.append( ('class:host'   , "%s \n"%m["text"]) )
+        message.append( ('class:key', "(%s) " %m["key"]) )
+        message.append( ('class:menu_item'   , "%s \n"%m["text"]) )
     return message
+
+global test
+test = {}
 
 def main_menu():
     bindings = KeyBindings()
@@ -43,12 +41,13 @@ def main_menu():
     ]
     message = get_menu(menu_items)
 
-
     @bindings.add('<any>')
     def _(event):
-        print("here",event.app)
+        print("here",event)
         #key_pressed = event.key
         event.app.exit()
+        global test
+        test["event"]=event
 
 
 
@@ -56,6 +55,8 @@ def main_menu():
     while True:
         session.prompt(message, style=style, key_bindings=bindings)
         print("here2",session.app)
+        global test
+        print(test)
 
 
 main_menu()

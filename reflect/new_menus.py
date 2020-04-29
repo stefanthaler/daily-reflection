@@ -23,40 +23,41 @@ style = Style.from_dict({
 # ]
 def get_menu(menu_items):
     message = []
-    for m in menu_items:
-        message.append( ('class:key', "(%s) " %m["key"]) )
+    for k in menu_items:
+        m=menu_items[k]
+        message.append( ('class:key', "(%s) " %k) )
         message.append( ('class:menu_item'   , "%s \n"%m["text"]) )
     return message
 
-global test
-test = {}
 
-def main_menu():
+def quit():
+    return False
+
+main_menu_items = {
+    "r":{"text":"Do reflection", "handler": quit  },
+    "a":{"text":"Add Questions", "handler": quit },
+    "q":{"text":"Quit", "handler": quit }
+}
+
+
+def no_enter_menu(menu_items):
     bindings = KeyBindings()
-
-    menu_items = [
-        {"key":"r", "text":"Do reflection"},
-        {"key":"a", "text":"Add Questions"},
-        {"key":"q", "text":"Quit"}
-    ]
     message = get_menu(menu_items)
+    global key_pressed
+    key_pressed = ""
 
     @bindings.add('<any>')
     def _(event):
         print("here",event)
-        #key_pressed = event.key
         event.app.exit()
-        global test
-        test["event"]=event
-
-
+        global key_pressed
+        key_pressed=event.key_sequence[0].data
 
     session = PromptSession()
-    while True:
+    loop = True
+    while loop:
         session.prompt(message, style=style, key_bindings=bindings)
-        print("here2",session.app)
-        global test
-        print(test)
+        loop = menu_items[key_pressed]["handler"]()
 
 
-main_menu()
+no_enter_menu(menu_items=main_menu_items)

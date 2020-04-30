@@ -15,6 +15,7 @@ style = Style.from_dict({
 
     'key': '#FFC107', #material amber
     'menu_item':'#FFF',
+    'separator': '#FFF',
 })
 
 # message = [
@@ -24,6 +25,15 @@ style = Style.from_dict({
 def get_menu(menu_items):
     message = []
     for k in menu_items:
+        if "==" in k:
+            message.append( ('class:separator', "="*20+"\n" ) )
+            continue
+
+        if "--" in k:
+            message.append( ('class:separator', "-"*20+"\n"  ) )
+            continue
+
+
         m=menu_items[k]
         message.append( ('class:key', "(%s) " %k) )
         message.append( ('class:menu_item'   , "%s \n"%m["text"]) )
@@ -35,7 +45,16 @@ def quit():
 
 main_menu_items = {
     "r":{"text":"Do reflection", "handler": quit  },
-    "a":{"text":"Add Questions", "handler": quit },
+    "--1":{},
+    "a":{"text":"Add questions", "handler": quit },
+    "m":{"text":"Modify questions", "handler": quit },
+    "o":{"text":"Change questions order", "handler": quit },
+    "d":{"text":"Delete questions", "handler": quit },
+    "--2":{},
+    "p":{"text":"Change password", "handler": quit },
+    "b":{"text":"Browse questions", "handler": quit },
+    "e":{"text":"Export reflections", "handler": quit },
+    "--3":{},
     "q":{"text":"Quit", "handler": quit }
 }
 
@@ -48,7 +67,6 @@ def no_enter_menu(menu_items):
 
     @bindings.add('<any>')
     def _(event):
-        print("here",event)
         event.app.exit()
         global key_pressed
         key_pressed=event.key_sequence[0].data

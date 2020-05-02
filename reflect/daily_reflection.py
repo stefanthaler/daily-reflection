@@ -71,6 +71,9 @@ style = Style.from_dict({
     'separator': '#FFF',
 })
 
+from prompt_toolkit import prompt
+import getpass
+
 
 
 
@@ -79,7 +82,7 @@ clear_screen()
 print("Daily Reflection, v%s"%VERSION)
 
 # TODO password prompt
-encryption_key = prompt(pwd_questions, style=custom_style_2)["password"]
+encryption_key = prompt('Enter password: ', is_password=True)
 
 try:
     from os.path import join as join_path

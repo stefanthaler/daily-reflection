@@ -7,7 +7,6 @@ from __future__ import print_function, unicode_literals
 from pprint import pprint
 from tinydb import TinyDB, where, Query
 import tinydb_encrypted_jsonstorage as tae
-from reflect.menus import *
 from reflect.actions import *
 import sys
 import os
@@ -23,6 +22,8 @@ from prompt_toolkit.filters import Condition
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit import PromptSession
 from prompt_toolkit.patch_stdout import patch_stdout
+from prompt_toolkit import prompt
+import getpass
 
 VERSION="0.2.0"
 
@@ -71,29 +72,17 @@ style = Style.from_dict({
     'separator': '#FFF',
 })
 
-from prompt_toolkit import prompt
-import getpass
-
-
-
 
 # get password
 clear_screen()
 print("Daily Reflection, v%s"%VERSION)
 
-# TODO password prompt
-encryption_key = prompt('Enter password: ', is_password=True)
-
+encryption_key = prompt( [('class:key','Password? ' )], is_password=True, style=style)
 try:
     from os.path import join as join_path
     db = TinyDB(encryption_key=encryption_key, path=join_path(str(Path.home()),".reflect.db"), storage=tae.EncryptedJSONStorage)
 except:
     print("Error loading DB, probably wrong encryption key",sys.exc_info()[0], sys.exc_info()[1])
-    sys.exit(0)
-
-
-
-
 
 def quit():
     return False

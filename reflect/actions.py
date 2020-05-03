@@ -1,10 +1,7 @@
 from __future__ import print_function, unicode_literals
-from PyInquirer import prompt, style_from_dict, Token, Separator, print_json
-from examples import custom_style_2
 from pprint import pprint
 from tinydb import TinyDB, where, Query
-from reflect.menus import *
-from reflect.actions import *
+# from reflect.menus import *
 import sys
 import os
 import uuid # creating unique id's for storage

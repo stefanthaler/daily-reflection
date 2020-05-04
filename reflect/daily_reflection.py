@@ -27,9 +27,24 @@ import getpass
 
 VERSION="0.2.0"
 
+style = Style.from_dict({
+    # User input (default text).
+    '':          '#ff0066',
+
+    'key': '#FFC107', #material amber
+    'menu_item':'#FFF',
+    'separator': '#FFF',
+    'title':'#43A047'
+})
+
 def get_menu(menu_items):
     message = []
+
     for k in menu_items:
+        if "title" == k:
+            message.append( ('class:title', menu_items[k]["text"]+"\n") )
+            message.append(('class:separator',"="*20+"\n\n") )
+            continue
         if "==" in k:
             message.append( ('class:separator', "="*20+"\n" ) )
             continue
@@ -45,7 +60,7 @@ def get_menu(menu_items):
     return message
 
 
-def no_enter_menu(menu_items):
+def no_enter_menu(menu_items,*args):
     bindings = KeyBindings()
     message = get_menu(menu_items)
     global key_pressed
@@ -63,14 +78,7 @@ def no_enter_menu(menu_items):
         session.prompt(message, style=style, key_bindings=bindings)
         loop = menu_items[key_pressed]["handler"]()
 
-style = Style.from_dict({
-    # User input (default text).
-    '':          '#ff0066',
 
-    'key': '#FFC107', #material amber
-    'menu_item':'#FFF',
-    'separator': '#FFF',
-})
 
 
 # get password
@@ -87,9 +95,19 @@ except:
 def quit():
     return False
 
+def time_menu(*args):
+    items = {
+        "m":{"text":"Morning", "handler": quit  },
+        "e":{"text":"Evening", "handler": quit },
+        "b":{"text":"Back", "handler": quit },
+    }
+    no_enter_menu(menu_items, args)
+
+
 def reflection_menu():
-    main_menu_items = {
-        "r":{"text":"Do reflection", "handler": quit  },
+    items = {
+        "title":{"text":"What do you want to do?"},
+        "r":{"text":"Do reflection", "handler": time_menu},
         "--1":{},
         "a":{"text":"Add questions", "handler": quit },
         "m":{"text":"Modify questions", "handler": quit },
@@ -102,7 +120,7 @@ def reflection_menu():
         "--3":{},
         "q":{"text":"Quit", "handler": quit }
     }
-    no_enter_menu(menu_items=main_menu_items)
+    no_enter_menu(menu_items=items)
 
 
 

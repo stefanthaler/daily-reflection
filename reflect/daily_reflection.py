@@ -60,7 +60,7 @@ def get_menu(menu_items):
     return message
 
 
-def no_enter_menu(menu_items,*args):
+def key_press_menu(menu_items):
     bindings = KeyBindings()
     message = get_menu(menu_items)
     global key_pressed
@@ -76,8 +76,11 @@ def no_enter_menu(menu_items,*args):
     loop = True
     while loop:
         session.prompt(message, style=style, key_bindings=bindings)
+        if not key_pressed in menu_items:
+            clear_screen()
+            continue
         loop = menu_items[key_pressed]["handler"]()
-
+    return key_pressed
 
 
 
@@ -88,6 +91,7 @@ print("Daily Reflection, v%s"%VERSION)
 encryption_key = prompt( [('class:key','Password? ' )], is_password=True, style=style)
 try:
     from os.path import join as join_path
+    global db
     db = TinyDB(encryption_key=encryption_key, path=join_path(str(Path.home()),".reflect.db"), storage=tae.EncryptedJSONStorage)
 except:
     print("Error loading DB, probably wrong encryption key",sys.exc_info()[0], sys.exc_info()[1])
@@ -95,19 +99,31 @@ except:
 def quit():
     return False
 
-def time_menu(*args):
+def time_menu():
     items = {
-        "m":{"text":"Morning", "handler": quit  },
+        "title":{"text":"Which type of reflection do you want to do?"},
+        "m":{"text":"Morning", "handler": quit},
         "e":{"text":"Evening", "handler": quit },
         "b":{"text":"Back", "handler": quit },
     }
-    no_enter_menu(menu_items, args)
+    return key_press_menu(items)
+
+def do_reflection():
+    clear_screen()
+    global db
+    time = time_menu()
+    if time=="b": return
+
+    print(time)
+    # for all questions, create prompot
+
+
 
 
 def reflection_menu():
     items = {
         "title":{"text":"What do you want to do?"},
-        "r":{"text":"Do reflection", "handler": time_menu},
+        "r":{"text":"Do reflection", "handler": do_reflection},
         "--1":{},
         "a":{"text":"Add questions", "handler": quit },
         "m":{"text":"Modify questions", "handler": quit },
@@ -120,7 +136,7 @@ def reflection_menu():
         "--3":{},
         "q":{"text":"Quit", "handler": quit }
     }
-    no_enter_menu(menu_items=items)
+    key_press_menu(menu_items=items)
 
 
 

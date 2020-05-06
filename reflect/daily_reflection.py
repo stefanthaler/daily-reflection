@@ -79,10 +79,10 @@ def key_press_menu(menu_items):
         if not key_pressed in menu_items:
             clear_screen()
             continue
-        loop = menu_items[key_pressed]["handler"]()
+        else:
+            loop=False
+
     return key_pressed
-
-
 
 # get password
 clear_screen()
@@ -106,21 +106,10 @@ def time_menu():
         "e":{"text":"Evening", "handler": quit },
         "b":{"text":"Back", "handler": quit },
     }
-    return key_press_menu(items)
-
-def do_reflection():
-    clear_screen()
-    global db
-    time = time_menu()
-    if time=="b": return
-
-    print(time)
-    # for all questions, create prompot
-
-
-
+    return items[key_press_menu(items)]["text"]
 
 def reflection_menu():
+    global db
     items = {
         "title":{"text":"What do you want to do?"},
         "r":{"text":"Do reflection", "handler": do_reflection},
@@ -136,7 +125,17 @@ def reflection_menu():
         "--3":{},
         "q":{"text":"Quit", "handler": quit }
     }
-    key_press_menu(menu_items=items)
+    while True:
+        key = key_press_menu(menu_items=items)
+
+        if key=="q":
+            break
+
+        if key in ["r","a","m","o","d"]:
+            clear_screen()
+            time = time_menu()
+            items[key]["handler"](time,db)
+
 
 
 

@@ -36,14 +36,16 @@ def do_reflection(time, data_base):
     Answers = Query()
     old_answers = data_base.search( (Answers.time == time) & (Answers.date==today()) & (Answers.type=="reflection") )
     old_answers = (old_answers[0] if len(old_answers)>0 else {})
-
+    0/0
     # store answers for today in database
     ref_qs = []
     for i, q in enumerate(questions):
+        default = old_answers[q["id"]] if q["id"] in old_answers else ""
+
         ref_qs.append({
-            'type': 'input',
+
             'name': q["id"],
-            'default':  old_answers[q["id"]] if q["id"] in old_answers else "",#TODO load existing answers
+            'default': "" ,#TODO load existing answers
             'message': q["text"].replace("?","") +  "?"
         })
 

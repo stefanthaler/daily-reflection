@@ -34,7 +34,8 @@ style = Style.from_dict({
     'key': '#FFC107', #material amber
     'menu_item':'#FFF',
     'separator': '#FFF',
-    'title':'#43A047'
+    'title':'#43A047',
+    "default_answer":'#AAA'
 })
 
 def get_menu(menu_items):
@@ -93,6 +94,7 @@ try:
     from os.path import join as join_path
     global db
     db = TinyDB(encryption_key=encryption_key, path=join_path(str(Path.home()),".reflect.db"), storage=tae.EncryptedJSONStorage)
+    print(db.all())
 except:
     print("Error loading DB, probably wrong encryption key",sys.exc_info()[0], sys.exc_info()[1])
 
@@ -126,6 +128,7 @@ def reflection_menu():
         "q":{"text":"Quit", "handler": quit }
     }
     while True:
+        clear_screen()
         key = key_press_menu(menu_items=items)
 
         if key=="q":
@@ -134,6 +137,7 @@ def reflection_menu():
         if key in ["r","a","m","o","d"]:
             clear_screen()
             time = time_menu()
+            print("You chose: %s\n"%time)
             items[key]["handler"](time,db)
 
 

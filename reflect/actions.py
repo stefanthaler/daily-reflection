@@ -8,6 +8,19 @@ import uuid # creating unique id's for storage
 from pathlib import Path # for finding user's home
 from os.path import join as join_path
 from datetime import datetime,timedelta
+from prompt_toolkit import prompt
+from prompt_toolkit.styles import Style
+
+style = Style.from_dict({
+    # User input (default text).
+    '':          '#ff0066',
+
+    'key': '#FFC107', #material amber
+    'menu_item':'#FFF',
+    'separator': '#FFF',
+    'title':'#43A047',
+    "default_answer":'#AAA'
+})
 
 
 def today():
@@ -36,28 +49,21 @@ def do_reflection(time, data_base):
     Answers = Query()
     old_answers = data_base.search( (Answers.time == time) & (Answers.date==today()) & (Answers.type=="reflection") )
     old_answers = (old_answers[0] if len(old_answers)>0 else {})
-    0/0
+
+    answers = {}
+    answers["time"]=time
+    answers["type"]="reflection"
+    answers["date"]=today()
     # store answers for today in database
     ref_qs = []
     for i, q in enumerate(questions):
         default = old_answers[q["id"]] if q["id"] in old_answers else ""
-
-        ref_qs.append({
-
-            'name': q["id"],
-            'default': "" ,#TODO load existing answers
-            'message': q["text"].replace("?","") +  "?"
-        })
-
-    res = prompt(ref_qs)
-    res["time"]=time
-    res["type"]="reflection"
-    res["date"]=today()
+        answers[q["id"]]= prompt( [('class:key',q["text"].replace("?","")+"?"),('class:default_answer'," <%s>: "%default) ], style=style)
 
     if len(old_answers)==0:
-        data_base.insert(res)
+        data_base.insert(answers)
     else:
-        data_base.update(res, (Answers.time == time) & (Answers.date==today()) & (Answers.type=="reflection") )
+        data_base.update(answers, (Answers.time == time) & (Answers.date==today()) & (Answers.type=="reflection") )
     print("%s-reflection stored.\n"%time)
 
 def get_questions(time, data_base):

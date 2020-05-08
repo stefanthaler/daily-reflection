@@ -127,8 +127,8 @@ def reflection_menu():
         "--3":{},
         "q":{"text":"Quit", "handler": quit }
     }
+    clear_screen()
     while True:
-        clear_screen()
         key = key_press_menu(menu_items=items)
 
         if key=="q":
@@ -140,9 +140,10 @@ def reflection_menu():
             print("You chose: %s\n"%time)
             items[key]["handler"](time,db)
 
-
-
-
+        if key == "e":
+            clear_screen()
+            export(db)
+            continue
 
 # def reflection_menu():
 #     action = "" # action has to be the same as the name of the action TODO refactor

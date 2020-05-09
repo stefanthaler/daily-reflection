@@ -144,6 +144,10 @@ def reflection_menu():
             clear_screen()
             export(db)
             continue
+        if key == "b":
+            clear_screen()
+            change_password(db)
+            continue
 
 # def reflection_menu():
 #     action = "" # action has to be the same as the name of the action TODO refactor

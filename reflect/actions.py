@@ -187,8 +187,8 @@ def change_password(data_base): ##TODO  Move to encrypted file storage
     from os.path import join as join_path
     action=""
 
-    new_encryption_key1 = prompt(new_pwd_questions, style=custom_style_2)["password"]
-    new_encryption_key2 = prompt(repeat_new_pwd_questions, style=custom_style_2)["password"]
+    new_encryption_key1 = prompt( [('class:key','New Password? ' )], is_password=True, style=style)
+    new_encryption_key2 = prompt( [('class:key','Repeat New Password? ' )], is_password=True, style=style)
 
     if not (new_encryption_key1==new_encryption_key2):
         print("New passwords don't match, aborting.")

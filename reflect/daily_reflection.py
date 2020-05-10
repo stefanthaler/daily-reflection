@@ -146,6 +146,10 @@ def reflection_menu():
             continue
         if key == "b":
             clear_screen()
+            browse( today(), db )
+            continue
+        if key == "p":
+            clear_screen()
             change_password(db)
             continue
 

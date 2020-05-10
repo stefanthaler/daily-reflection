@@ -1,7 +1,6 @@
 from __future__ import print_function, unicode_literals
 from pprint import pprint
 from tinydb import TinyDB, where, Query
-# from reflect.menus import *
 import sys
 import os
 import uuid # creating unique id's for storage
@@ -9,18 +8,8 @@ from pathlib import Path # for finding user's home
 from os.path import join as join_path
 from datetime import datetime,timedelta
 from prompt_toolkit import prompt
-from prompt_toolkit.styles import Style
 
-style = Style.from_dict({
-    # User input (default text).
-    '':          '#ff0066',
-
-    'key': '#FFC107', #material amber
-    'menu_item':'#FFF',
-    'separator': '#FFF',
-    'title':'#43A047',
-    "default_answer":'#AAA'
-})
+from reflect.menus import *
 
 
 def today():
@@ -356,21 +345,22 @@ def browse(current_date, data_base ):
 
     while True:
         # today
-        clear_screen()
+
         view_day(current_date, data_base)
         print("")
         # show menu
-        action = prompt(browse_question)["action"]
-        if action=="Back":
+        action = browse_menu()
+        clear_screen()
+        if action=="b":
             return
-        elif action=="Previous Day":
+        elif action=="p":
             current_date = change_date(current_date, -1)
             continue
-        elif action=="Next Day":
+        elif action=="n":
             current_date = change_date(current_date, 1)
             continue
-        elif action == "Goto Day":
-            browse_date = prompt(browse_question_day)["browse_date"]
+        elif action == "g":
+            browse_date = prompt( [('class:key','Which day do you want to display (YYYYMMDD)? ' )], style=style)
             try:
                 datetime.strptime(browse_date,"%Y%m%d") #check if formatted correctly
                 current_date = browse_date

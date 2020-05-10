@@ -15,75 +15,18 @@ import uuid # creating unique id's for storage
 from pathlib import Path # for finding user's home
 # colorise output
 from prompt_toolkit.shortcuts import prompt
-from prompt_toolkit.styles import Style
+
 
 from prompt_toolkit import prompt
 from prompt_toolkit.filters import Condition
-from prompt_toolkit.key_binding import KeyBindings
-from prompt_toolkit import PromptSession
+
 from prompt_toolkit.patch_stdout import patch_stdout
 from prompt_toolkit import prompt
 import getpass
 
+from reflect.style import *
+
 VERSION="0.2.0"
-
-style = Style.from_dict({
-    # User input (default text).
-    '':          '#ff0066',
-
-    'key': '#FFC107', #material amber
-    'menu_item':'#FFF',
-    'separator': '#FFF',
-    'title':'#43A047',
-    "default_answer":'#AAA'
-})
-
-def get_menu(menu_items):
-    message = []
-
-    for k in menu_items:
-        if "title" == k:
-            message.append( ('class:title', menu_items[k]["text"]+"\n") )
-            message.append(('class:separator',"="*20+"\n\n") )
-            continue
-        if "==" in k:
-            message.append( ('class:separator', "="*20+"\n" ) )
-            continue
-
-        if "--" in k:
-            message.append( ('class:separator', "-"*20+"\n"  ) )
-            continue
-
-
-        m=menu_items[k]
-        message.append( ('class:key', "(%s) " %k) )
-        message.append( ('class:menu_item'   , "%s \n"%m["text"]) )
-    return message
-
-
-def key_press_menu(menu_items):
-    bindings = KeyBindings()
-    message = get_menu(menu_items)
-    global key_pressed
-    key_pressed = ""
-
-    @bindings.add('<any>')
-    def _(event):
-        event.app.exit()
-        global key_pressed
-        key_pressed=event.key_sequence[0].data
-
-    session = PromptSession()
-    loop = True
-    while loop:
-        session.prompt(message, style=style, key_bindings=bindings)
-        if not key_pressed in menu_items:
-            clear_screen()
-            continue
-        else:
-            loop=False
-
-    return key_pressed
 
 # get password
 clear_screen()
@@ -100,15 +43,6 @@ except:
 
 def quit():
     return False
-
-def time_menu():
-    items = {
-        "title":{"text":"Which type of reflection do you want to do?"},
-        "m":{"text":"Morning", "handler": quit},
-        "e":{"text":"Evening", "handler": quit },
-        "b":{"text":"Back", "handler": quit },
-    }
-    return items[key_press_menu(items)]["text"]
 
 def reflection_menu():
     global db
@@ -152,37 +86,3 @@ def reflection_menu():
             clear_screen()
             change_password(db)
             continue
-
-# def reflection_menu():
-#     action = "" # action has to be the same as the name of the action TODO refactor
-#     while True:
-#         action = prompt(main_menu_questions, style=custom_style_2)["mm_action"]
-#         view_day(today(), db)
-#         clear_screen()
-#         if action=="Quit": break
-#         if action=="Change Password":
-#             change_password(db)
-#             continue
-#         if action== "Export":
-#             export(db)
-#             continue
-#         if action== "Browse":
-#             browse( today(), db )
-#             continue
-#
-#
-#         # Time based questions
-#         time = prompt(time_questions)["time"]
-#         if time=="Back":
-#             continue
-#
-#         if action=="Reflection":
-#             do_reflection(time, db)
-#         elif action=="Add Questions":
-#             add_questions(time, db)
-#         elif action=="Modify Questions":
-#             modify_questions(time, db)
-#         elif action=="Change Question Order":
-#             change_order(time, db)
-#         elif action=="Delete Questions":
-#             delete_questions(time, db)

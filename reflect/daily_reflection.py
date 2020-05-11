@@ -37,9 +37,9 @@ try:
     from os.path import join as join_path
     global db
     db = TinyDB(encryption_key=encryption_key, path=join_path(str(Path.home()),".reflect.db"), storage=tae.EncryptedJSONStorage)
-    print(db.all())
 except:
     print("Error loading DB, probably wrong encryption key",sys.exc_info()[0], sys.exc_info()[1])
+    sys.exit(1)
 
 def quit():
     return False
@@ -53,7 +53,7 @@ def reflection_menu():
         "a":{"text":"Add questions", "handler": quit },
         "m":{"text":"Modify questions", "handler": quit },
         "o":{"text":"Change questions order", "handler": quit },
-        "d":{"text":"Delete questions", "handler": quit },
+        "d":{"text":"Delete questions", "handler": delete_questions },
         "--2":{},
         "p":{"text":"Change password", "handler": quit },
         "b":{"text":"Browse questions", "handler": quit },

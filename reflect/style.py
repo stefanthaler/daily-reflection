@@ -8,5 +8,6 @@ style = Style.from_dict({
     'menu_item':'#FFF',
     'separator': '#FFF',
     'title':'#43A047',
+    'input':'#43A047',
     "default_answer":'#AAA'
 })

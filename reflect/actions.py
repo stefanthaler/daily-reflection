@@ -121,17 +121,30 @@ def delete_questions(time, data_base):
             return
         # get new question
 
-        delete_action=prompt(delete_questions_ary(time, questions))["action"]
+        menu = []
+        menu.append( ('class:title','Which question do you want to delete? \n' ) )
+        menu.append( ('class:separator',"="*20+"\n\n") )
+        for i,q in enumerate(questions):
+            menu.append( ('class:key','(%s) '%(i+1) )  )
+            menu.append( ('class:menu_item',' %s \n'%q["text"] )  )
 
-        if delete_action == "Abort":
+        menu.append( ('class:key',"\n(a) " ) )
+        menu.append( ('class:menu_item',"Abort \n" ) )
+        menu.append( ('class:input',"> " ) )
+
+
+
+        delete_action=prompt( menu , style=style)
+
+        if delete_action == "a":
             clear_screen()
             print("Aborted deleting.\n")
             return
 
         # delete data
-        for q in questions:
-            if q["text"] == delete_action:
-                q["deleted"]=True
+        questions[int(delete_action)-1]["deleted"]=True
+        print(questions)
+        0/0
 
         Questions = Query()
         data_base.update({'questions':questions}, Questions.time == time)

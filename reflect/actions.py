@@ -132,8 +132,6 @@ def delete_questions(time, data_base):
         menu.append( ('class:menu_item',"Abort \n" ) )
         menu.append( ('class:input',"> " ) )
 
-
-
         delete_action=prompt( menu , style=style)
 
         if delete_action == "a":
@@ -143,8 +141,7 @@ def delete_questions(time, data_base):
 
         # delete data
         questions[int(delete_action)-1]["deleted"]=True
-        print(questions)
-        0/0
+        # TODO validate input
 
         Questions = Query()
         data_base.update({'questions':questions}, Questions.time == time)
@@ -171,14 +168,24 @@ def change_order(time, data_base):
             return
         # get new question
 
-        move_from=prompt(move_question_from(questions))["action"]
-        if move_from == "Abort":
+        menu = []
+        menu.append( ('class:title','Which question do you want to move? \n' ) )
+        menu.append( ('class:separator',"="*20+"\n\n") )
+        for i,q in enumerate(questions):
+            menu.append( ('class:key','(%s) '%(i+1) )  )
+            menu.append( ('class:menu_item',' %s \n'%q["text"] )  )
+
+        menu.append( ('class:key',"\n(a) " ) )
+        menu.append( ('class:menu_item',"Abort \n" ) )
+        menu.append( ('class:input',"> " ) )
+        # TODO validate input
+        move_from=prompt( menu , style=style)
+        if move_from == "a":
             clear_screen()
             print("Aborted order change.\n")
             return
 
         # get new question
-
         move_to=prompt(move_question_to(questions))["action"]
 
         if move_to == "Abort":

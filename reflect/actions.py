@@ -147,21 +147,21 @@ def delete_questions(time, data_base):
             clear_screen()
             print("Aborted deleting.\n")
             return
+        # validate user input
+        if not delete_action.isnumeric() or int(delete_action)-1  not in list(range(len(questions))):
+            clear_screen()
+            print("'%s' is an invalid input, aborting.\n"%delete_action)
+            return
 
         # delete data
         questions[int(delete_action)-1]["deleted"]=True
-        # TODO validate input
+
 
         Questions = Query()
         data_base.update({'questions':questions}, Questions.time == time)
         clear_screen()
         print("Question for %s reflection deleted .\n"%time)
 
-        # prompt if you want to add more questions?
-
-        action = prompt(continue_delete_question)["action"]
-        if action=="Back":
-            return
 
 def change_order(time, data_base):
     # load existing questions

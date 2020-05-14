@@ -110,7 +110,7 @@ def add_questions(time, data_base):
 
         items = {
             "title":{"text":"What do you want to do?"},
-            "a":{"text":"Add further questions", "handler": quit},
+            "<any>":{"text":"Add further questions", "handler": quit},
             "b":{"text":"Back", "handler": quit },
         }
         key_pressed = key_press_menu(items)
@@ -253,8 +253,8 @@ def change_password(data_base): ##TODO  Move to encrypted file storage
 def modify_questions(time, data_base):
     # load existing questions
     action=""
+    clear_screen()
     while True:
-        clear_screen()
         # get old questions
         Questions = Query()
         questions = get_questions(time, data_base)
@@ -264,21 +264,41 @@ def modify_questions(time, data_base):
             return
 
         # get new question
-        mod_action=prompt(mod_question(time, questions))["action"]
+        menu = []
+        menu.append( ('class:title','Which question do you want to modify? \n' ) )
+        menu.append( ('class:separator',"="*20+"\n\n") )
+        for i,q in enumerate(questions):
+            menu.append( ('class:key','(%s) '%(i+1) )  )
+            menu.append( ('class:menu_item',' %s \n'%q["text"] )  )
 
-        if mod_action == "Abort":
+        menu.append( ('class:key',"\n(a) " ) )
+        menu.append( ('class:menu_item',"Abort \n" ) )
+        menu.append( ('class:input',"> " ) )
+        mod_action=prompt(menu , style=style)
+
+        if mod_action == "a":
             clear_screen()
             print("Aborted modification.\n")
             return
+        if not mod_action.isnumeric() or int(mod_action)-1  not in list(range(len(questions))):
+            clear_screen()
+            print("'%s' is an invalid input, aborting.\n"%delete_action)
+            continue
+        question_id = int(mod_action)-1
+
 
         # modify data
         # get new question
-        modified_question_text=prompt(mod_question_to(mod_action))["new_question"]
+        menu = []
+        menu.append( ('class:title','New question text? \n' ) )
+        menu.append( ('class:menu_item','<%s> \n'%questions[question_id]["text"] ) )
+        menu.append( ('class:input',"> " ) )
+        modified_question_text=prompt(menu, style=style)
 
         if len(modified_question_text)==0:
             clear_screen()
             print("Empty text, question not modified. If you want to delete a question, use the delete menu.")
-            return
+            continue
 
         if not modified_question_text[-1]=="?":
             modified_question_text=modified_question_text+"?"
@@ -286,22 +306,15 @@ def modify_questions(time, data_base):
         for q in questions:
             if modified_question_text==q["text"]:
                 clear_screen()
-                print("Duplicate question, question not changed."%new_question_text)
-                return
+                print("Duplicate question, question not changed."%modified_question_text)
+                continue
 
-        for q in questions:
-            if q["text"]==mod_action:
-                q["text"]=modified_question_text
-
+        questions[question_id]["text"]=modified_question_text
         data_base.update({'questions':questions}, Questions.time == time)
         clear_screen()
         #TODO proper messageb
         print("Question for %s reflection has been updated.\n"%time)
 
-        # prompt if you want to add more questions?
-        action = prompt(continue_mod_question)["action"]
-        if action=="Back":
-            return
 """
     Exports all answers to a text file
 """

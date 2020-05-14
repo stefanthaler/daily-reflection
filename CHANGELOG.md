@@ -5,9 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 # [Planned features]
-- statistics
+- document
+- key up / down + enter select in menus
+- clean up  code
+
+# [0.2.0]
+## Changed
 - rewrite using prompt toolkit https://python-prompt-toolkit.readthedocs.io/en/master/ to enable selecting menus without pressing enter
-- rewrite browsing for proper formatting
+- rewrite browsing with proper formatting
 
 # [0.1.1]
 ## Changed

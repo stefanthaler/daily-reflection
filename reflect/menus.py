@@ -1,6 +1,10 @@
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit import PromptSession
 from reflect.style import *
+import os
+from prompt_toolkit.shortcuts import clear
+
+
 
 def get_menu(menu_items):
     message = []
@@ -31,18 +35,43 @@ def key_press_menu(menu_items):
     global key_pressed
     key_pressed = ""
 
+    @bindings.add('c-m')
+    @bindings.add('up')
+    @bindings.add('down')
     @bindings.add('<any>')
     def _(event):
         event.app.exit()
         global key_pressed
-        key_pressed=event.key_sequence[0].data
+        key_pressed=event.key_sequence[0].key
 
     session = PromptSession()
     loop = True
+    current_key = 0
+    key_positions = []
+    for i, m in enumerate(message):
+        if m[0]=="class:key":
+            key_positions.append(i)
+
     while loop:
+        for k in key_positions:
+            message[k]=('class:key', message[k][1])
+            message[k+1]=('class:menu_item', message[k+1][1])
+        message[key_positions[current_key]]=('class:current_key',message[key_positions[current_key]][1])
+        message[key_positions[current_key]+1]=('class:current_key',message[key_positions[current_key]+1][1])
+
         session.prompt(message, style=style, key_bindings=bindings)
+        if str(key_pressed)=="Keys.Up":
+            if current_key>0:
+                current_key=current_key-1
+        if str(key_pressed)=="Keys.Down":
+            if current_key<len(key_positions)-1:
+                current_key=current_key+1
+
+        if str(key_pressed)=="Keys.ControlM": # enter has been pressed
+            key_pressed=message[key_positions[current_key]][1].split(")")[0][1:]
+
         if not key_pressed in menu_items:
-            clear_screen()
+            clear()
             continue
         else:
             loop=False

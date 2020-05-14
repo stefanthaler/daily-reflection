@@ -75,17 +75,21 @@ def add_questions(time, data_base):
         clear_screen()
         # get old questions
         questions=get_questions(time, data_base)
-        print("Existing questions:")
-        [print("\t"+q["text"]) for q in questions]
-        print()
-
         # get new question
-        new_question_text=prompt(add_question_ary(time))["new_question"]
+        menu = []
+        menu.append( ('class:title','Existing questions \n' ) )
+        menu.append( ('class:separator',"="*20+"\n\n") )
+        for i,q in enumerate(questions):
+            menu.append( ('class:key','(%s) '%(i+1) )  )
+            menu.append( ('class:menu_item',' %s \n'%q["text"] )  )
+
+        menu.append( ('class:input',"Question to add: > " ) )
+
+        new_question_text=prompt( menu , style=style)
         if len(new_question_text)==0:
             clear_screen()
             print("Empty text, no question added.")
             return
-
 
         if not new_question_text[-1]=="?":
             new_question_text=new_question_text+"?"
@@ -101,11 +105,16 @@ def add_questions(time, data_base):
         #store new question
         Questions=Query()
         data_base.update({'questions':questions}, Questions.time == time)
+        print("Question successfully added.\n")
         # prompt if you want to add more questions?
 
-        clear_screen()
-        action = prompt(continue_add_question)["action"]
-        if action=="Back":
+        items = {
+            "title":{"text":"What do you want to do?"},
+            "a":{"text":"Add further questions", "handler": quit},
+            "b":{"text":"Back", "handler": quit },
+        }
+        key_pressed = key_press_menu(items)
+        if key_pressed=="b":
             return
 
 def delete_questions(time, data_base):

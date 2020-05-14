@@ -189,22 +189,44 @@ def change_order(time, data_base):
         menu.append( ('class:input',"> " ) )
         # TODO validate input
         move_from=prompt( menu , style=style)
+
         if move_from == "a":
             clear_screen()
             print("Aborted order change.\n")
             return
 
-        # get new question
-        move_to=prompt(move_question_to(questions))["action"]
+        if not move_from.isnumeric() or int(move_from)-1 not in list(range(len(questions))):
+            clear_screen()
+            print("'%s' is an invalid input, aborting.\n"%move_from)
+            return
 
-        if move_to == "Abort":
+
+        menu = []
+        menu.append( ('class:title','To which position do you want to move it? \n' ) )
+        menu.append( ('class:separator',"="*20+"\n\n") )
+        for i,q in enumerate(questions):
+            menu.append( ('class:key','(%s) '%(i+1) )  )
+            menu.append( ('class:menu_item',' %s \n'%q["text"] )  )
+
+        menu.append( ('class:key',"\n(a) " ) )
+        menu.append( ('class:menu_item',"Abort \n" ) )
+        menu.append( ('class:input',"> " ) )
+        # get new question
+        move_to=prompt(menu , style=style)
+
+        if move_to == "a":
             clear_screen()
             print("Aborted order change.\n")
             return
         # move question
-        from_index = get_pos(questions,move_from)
-        to_index = get_pos(questions,move_to)
-        questions.insert(to_index, questions.pop(from_index))
+
+        if not move_to.isnumeric() or int(move_to)-1  not in list(range(len(questions))):
+            clear_screen()
+            print("'%s' is an invalid input, aborting.\n"%move_to)
+            return
+
+        # validate user input
+        questions.insert(int(move_to)-1, questions.pop(int(move_from)-1 ))
 
         # update in database
         Questions=Query()

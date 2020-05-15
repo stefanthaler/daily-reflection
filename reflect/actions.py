@@ -129,24 +129,13 @@ def delete_questions(time, data_base):
             print("No questions for %s stored."%time )
             return
         # get new question
-
-        # TODO refactor this
-        items = {
-            "title":{"text":"Which question do you want to delete?"}
-        }
-
-        key_codes = [c for c in "123456789abcdefghijklmnoprstuvwxyz"]
-        for i,q in enumerate(questions):
-            items[key_codes[i]]={"text":q["text"]}
-        items["--1"]={}
-        items["q"]={"text":"Abort"}
-
-        delete_action=key_press_menu(items)
+        delete_action=menu_from_questions(questions, "Which question do you want to delete?")
 
         if delete_action == "escape" or delete_action=="q":
             clear_screen()
             print("Aborted deleting.\n")
             return
+
         # validate user input
         if not delete_action.isnumeric() or int(delete_action)-1  not in list(range(len(questions))):
             clear_screen()

@@ -95,6 +95,17 @@ def time_menu():
     }
     return items[key_press_menu(items)]["text"]
 
+def menu_from_questions(questions, title, menu_generator=key_press_menu):
+    items = {
+        "title":{"text":title}
+    }
+    key_codes = [c for c in "123456789abcdefghijklmnoprstuvwxyz"]
+    for i,q in enumerate(questions):
+        items[key_codes[i]]={"text":q["text"]}
+    items["--1"]={}
+    items["q"]={"text":"Abort"}
+    return menu_generator(items)
+
 def browse_menu():
     items = {
         "title":{"text":"What do you want to do?"},

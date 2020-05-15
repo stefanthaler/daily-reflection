@@ -130,20 +130,20 @@ def delete_questions(time, data_base):
             return
         # get new question
 
-        menu = []
-        menu.append( ('class:title','Which question do you want to delete? \n' ) )
-        menu.append( ('class:separator',"="*20+"\n\n") )
+        # TODO refactor this
+        items = {
+            "title":{"text":"Which question do you want to delete?"}
+        }
+
+        key_codes = [c for c in "123456789abcdefghijklmnoprstuvwxyz"]
         for i,q in enumerate(questions):
-            menu.append( ('class:key','(%s) '%(i+1) )  )
-            menu.append( ('class:menu_item',' %s \n'%q["text"] )  )
+            items[key_codes[i]]={"text":q["text"]}
+        items["--1"]={}
+        items["q"]={"text":"Abort"}
 
-        menu.append( ('class:key',"\n(a) " ) )
-        menu.append( ('class:menu_item',"Abort \n" ) )
-        menu.append( ('class:input',"> " ) )
+        delete_action=key_press_menu(items)
 
-        delete_action=prompt( menu , style=style)
-
-        if delete_action == "a":
+        if delete_action == "escape" or delete_action=="q":
             clear_screen()
             print("Aborted deleting.\n")
             return

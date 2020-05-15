@@ -6,10 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Planned features]
 - document
-- key up / down + enter select in menus
 - clean up  code
 
 # [0.2.0]
+## Added
+- key up / down + enter select in menus
+
 ## Changed
 - rewrite using prompt toolkit https://python-prompt-toolkit.readthedocs.io/en/master/ to enable selecting menus without pressing enter
 - rewrite browsing with proper formatting

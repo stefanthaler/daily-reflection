@@ -65,7 +65,7 @@ def reflection_menu():
     while True:
         key = key_press_menu(menu_items=items)
 
-        if key=="q":
+        if key=="q" or key=="escape":
             break
 
         if key in ["r","a","m","o","d"]:

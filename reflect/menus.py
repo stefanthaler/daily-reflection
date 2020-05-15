@@ -37,6 +37,7 @@ def key_press_menu(menu_items):
 
     @bindings.add('c-m')
     @bindings.add('up')
+    @bindings.add('escape')
     @bindings.add('down')
     @bindings.add('<any>')
     def _(event):
@@ -70,20 +71,27 @@ def key_press_menu(menu_items):
         if str(key_pressed)=="Keys.ControlM": # enter has been pressed
             key_pressed=message[key_positions[current_key]][1].split(")")[0][1:]
 
+        if str(key_pressed)=="Keys.Escape": # enter has been pressed
+            key_pressed="escape"
+            loop=False
+            return key_pressed
+
         if not key_pressed in menu_items:
             clear()
             continue
         else:
             loop=False
+            break
+
 
     return key_pressed
 
 def time_menu():
     items = {
         "title":{"text":"Which type of reflection do you want to do?"},
-        "m":{"text":"Morning", "handler": quit},
-        "e":{"text":"Evening", "handler": quit },
-        "b":{"text":"Back", "handler": quit },
+        "m":{"text":"Morning"},
+        "e":{"text":"Evening"},
+        "b":{"text":"Back"},
     }
     return items[key_press_menu(items)]["text"]
 

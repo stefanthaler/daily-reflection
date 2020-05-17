@@ -47,12 +47,15 @@ def do_reflection(time, data_base):
     ref_qs = []
     for i, q in enumerate(questions):
         default = old_answers[q["id"]] if q["id"] in old_answers else ""
-        answers[q["id"]]= prompt( [('class:key',q["text"].replace("?","")+"?"),('class:default_answer'," <%s>: "%default) ], style=style)
 
-    if len(old_answers)==0:
-        data_base.insert(answers)
-    else:
-        data_base.update(answers, (Answers.time == time) & (Answers.date==today()) & (Answers.type=="reflection") )
+        new_answer = prompt( [('class:key',q["text"].replace("?","")+"?"),('class:default_answer'," <%s>: "%default) ], style=style)
+        if len(new_answer)>0:
+            answers[q["id"]]= new_answer
+        else:
+            answers[q["id"]]= default
+
+
+    data_base.update(answers, (Answers.time == time) & (Answers.date==today()) & (Answers.type=="reflection") )
     print("%s-reflection stored.\n"%time)
 
 def get_questions(time, data_base):
@@ -114,7 +117,7 @@ def add_questions(time, data_base):
             "b":{"text":"Back", "handler": quit },
         }
         key_pressed = key_press_menu(items)
-        if key_pressed=="b":
+        if key_pressed=="b" or key_pressed=="escape":
             return
 
 def delete_questions(time, data_base):
@@ -166,20 +169,9 @@ def change_order(time, data_base):
             return
         # get new question
 
-        menu = []
-        menu.append( ('class:title','Which question do you want to move? \n' ) )
-        menu.append( ('class:separator',"="*20+"\n\n") )
-        for i,q in enumerate(questions):
-            menu.append( ('class:key','(%s) '%(i+1) )  )
-            menu.append( ('class:menu_item',' %s \n'%q["text"] )  )
+        move_from=delete_action=menu_from_questions(questions, "Which question do you want to move?")
 
-        menu.append( ('class:key',"\n(a) " ) )
-        menu.append( ('class:menu_item',"Abort \n" ) )
-        menu.append( ('class:input',"> " ) )
-        # TODO validate input
-        move_from=prompt( menu , style=style)
-
-        if move_from == "a":
+        if move_from == "q" or move_from == "escape":
             clear_screen()
             print("Aborted order change.\n")
             return
@@ -189,26 +181,15 @@ def change_order(time, data_base):
             print("'%s' is an invalid input, aborting.\n"%move_from)
             return
 
-
-        menu = []
-        menu.append( ('class:title','To which position do you want to move it? \n' ) )
-        menu.append( ('class:separator',"="*20+"\n\n") )
-        for i,q in enumerate(questions):
-            menu.append( ('class:key','(%s) '%(i+1) )  )
-            menu.append( ('class:menu_item',' %s \n'%q["text"] )  )
-
-        menu.append( ('class:key',"\n(a) " ) )
-        menu.append( ('class:menu_item',"Abort \n" ) )
-        menu.append( ('class:input',"> " ) )
         # get new question
-        move_to=prompt(menu , style=style)
+        move_to=delete_action=menu_from_questions(questions, "To which position do you want to move it to?")
 
-        if move_to == "a":
+        if move_to == "q" or move_to == "escape":
             clear_screen()
             print("Aborted order change.\n")
             return
-        # move question
 
+        # move question
         if not move_to.isnumeric() or int(move_to)-1  not in list(range(len(questions))):
             clear_screen()
             print("'%s' is an invalid input, aborting.\n"%move_to)
@@ -253,19 +234,9 @@ def modify_questions(time, data_base):
             return
 
         # get new question
-        menu = []
-        menu.append( ('class:title','Which question do you want to modify? \n' ) )
-        menu.append( ('class:separator',"="*20+"\n\n") )
-        for i,q in enumerate(questions):
-            menu.append( ('class:key','(%s) '%(i+1) )  )
-            menu.append( ('class:menu_item',' %s \n'%q["text"] )  )
+        mod_action=menu_from_questions(questions, "Which question do you want to modify?")
 
-        menu.append( ('class:key',"\n(a) " ) )
-        menu.append( ('class:menu_item',"Abort \n" ) )
-        menu.append( ('class:input',"> " ) )
-        mod_action=prompt(menu , style=style)
-
-        if mod_action == "a":
+        if mod_action == "q" or mod_action=="escape":
             clear_screen()
             print("Aborted modification.\n")
             return
@@ -397,13 +368,11 @@ def change_date(current_date, offset_in_days):
 def browse(current_date, data_base ):
 
     while True:
-        # today
-
-        view_day(current_date, data_base)
+        view_day(current_date, database)
         print("")
         # show menu
-        action = browse_menu()
-        clear_screen()
+        action = browse_menu(current_date, data_base)
+        clear()
         if action=="b":
             return
         elif action=="p":

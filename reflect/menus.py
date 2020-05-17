@@ -106,6 +106,8 @@ def menu_from_questions(questions, title, menu_generator=key_press_menu):
     items["q"]={"text":"Abort"}
     return menu_generator(items)
 
+
+
 def browse_menu():
     items = {
         "title":{"text":"What do you want to do?"},

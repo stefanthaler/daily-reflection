@@ -47,15 +47,17 @@ def do_reflection(time, data_base):
     ref_qs = []
     for i, q in enumerate(questions):
         default = old_answers[q["id"]] if q["id"] in old_answers else ""
-
         new_answer = prompt( [('class:key',q["text"].replace("?","")+"?"),('class:default_answer'," <%s>: "%default) ], style=style)
         if len(new_answer)>0:
-            answers[q["id"]]= new_answer
+            answers[q["id"]] = new_answer
         else:
-            answers[q["id"]]= default
+            answers[q["id"]] = default
 
+    if len(old_answers)==0:
+        data_base.insert(answers)
+    else:
+        data_base.update(answers, (Answers.time == time) & (Answers.date==today()) & (Answers.type=="reflection") )
 
-    data_base.update(answers, (Answers.time == time) & (Answers.date==today()) & (Answers.type=="reflection") )
     print("%s-reflection stored.\n"%time)
 
 def get_questions(time, data_base):

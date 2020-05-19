@@ -8,7 +8,7 @@ from pathlib import Path # for finding user's home
 from os.path import join as join_path
 from datetime import datetime,timedelta
 from prompt_toolkit import prompt
-
+from prompt_toolkit.shortcuts import clear
 from reflect.menus import *
 
 
@@ -16,8 +16,7 @@ def today():
     return datetime.now().strftime("%Y%m%d")
 
 def clear_screen():
-    os.system('cls')
-    os.system('clear')
+    clear()
 
 def get_pos(questions, question_text ):
     for i,q in enumerate(questions):
@@ -120,6 +119,7 @@ def add_questions(time, data_base):
         }
         key_pressed = key_press_menu(items)
         if key_pressed=="b" or key_pressed=="escape":
+            clear_screen()
             return
 
 def delete_questions(time, data_base):

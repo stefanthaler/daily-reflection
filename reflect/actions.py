@@ -52,10 +52,10 @@ def do_reflection(time, data_base):
         else:
             answers[q["id"]] = default
 
-    if len(old_answers)==0:
-        data_base.insert(answers)
-    else:
-        data_base.update(answers, (Answers.time == time) & (Answers.date==today()) & (Answers.type=="reflection") )
+        if len(old_answers)==0 and i==0: 
+            data_base.insert(answers)
+        else:
+            data_base.update(answers, (Answers.time == time) & (Answers.date==today()) & (Answers.type=="reflection") )
 
     print("%s-reflection stored.\n"%time)
 

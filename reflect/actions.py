@@ -52,7 +52,7 @@ def do_reflection(time, data_base):
         else:
             answers[q["id"]] = default
 
-        if len(old_answers)==0 and i==0: 
+        if len(old_answers)==0 and i==0:
             data_base.insert(answers)
         else:
             data_base.update(answers, (Answers.time == time) & (Answers.date==today()) & (Answers.type=="reflection") )
@@ -370,10 +370,10 @@ def change_date(current_date, offset_in_days):
 def browse(current_date, data_base ):
 
     while True:
-        view_day(current_date, database)
+        view_day(current_date, data_base )
         print("")
         # show menu
-        action = browse_menu(current_date, data_base)
+        action = browse_menu()
         clear()
         if action=="b":
             return

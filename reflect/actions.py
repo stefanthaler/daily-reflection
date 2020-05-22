@@ -323,7 +323,7 @@ def export(data_base):
     print("Your reflections were exported to '%s'\n"%outfile)
     pass
 
-def view_day(date,data_base):
+def day_string(date,data_base):
     # load questions from database
     morning_questions = get_questions("Morning", data_base)
     evening_questions = get_questions("Evening", data_base)
@@ -346,19 +346,21 @@ def view_day(date,data_base):
 
     # TODO add color scheme
     # print questions and answers for that day
-    print(date[0:4]+"-"+date[4:6]+"-"+date[6:])
-    print("==========\n")
+    day_string  = ""
+    day_string += (date[0:4]+"-"+date[4:6]+"-"+date[6:]) + "\n"
+    day_string += "==========\n" + "\n"
 
     for t in ["Morning","Evening"]:
         if t in answers_by_date:
-            print("\t%s:"%(t))
+            day_string += "\t%s:"%(t) + "\n"
             for q in questions[t]:
                 if q["id"] in answers_by_date[t]:
-                    print("\t\t"+q["text"])
-                    print("\t\t\t"+answers_by_date[t][q["id"]])
-            print("")
+                    day_string += "\t\t"+q["text"] +"\n"
+                    day_string += "\t\t\t"+answers_by_date[t][q["id"]] +"\n"
+            day_string += "\n"
 
-    print("\n")
+    day_string += "\n"
+    return day_string
 
 def change_date(current_date, offset_in_days):
 
@@ -370,10 +372,9 @@ def change_date(current_date, offset_in_days):
 def browse(current_date, data_base ):
 
     while True:
-        view_day(current_date, data_base )
-        print("")
+
         # show menu
-        action = browse_menu()
+        action = browse_menu(day_string(current_date, data_base ))
         clear()
         if action=="b":
             return

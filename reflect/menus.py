@@ -29,7 +29,7 @@ def get_menu(menu_items):
     return message
 
 
-def key_press_menu(menu_items):
+def key_press_menu(menu_items, loop_display=""):
     bindings = KeyBindings()
     message = get_menu(menu_items)
     global key_pressed
@@ -54,6 +54,8 @@ def key_press_menu(menu_items):
             key_positions.append(i)
 
     while loop:
+        print(loop_display)
+
         for k in key_positions:
             message[k]=('class:key', message[k][1])
             message[k+1]=('class:menu_item', message[k+1][1])
@@ -108,7 +110,7 @@ def menu_from_questions(questions, title, menu_generator=key_press_menu):
 
 
 
-def browse_menu():
+def browse_menu(day_string):
     items = {
         "title":{"text":"What do you want to do?"},
         "n":{"text":"Next day", "handler": quit},
@@ -116,4 +118,4 @@ def browse_menu():
         "g":{"text":"Goto day", "handler": quit },
         "b":{"text":"Back to main menu", "handler": quit },
     }
-    return key_press_menu(items)
+    return key_press_menu(items,day_string)

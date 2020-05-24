@@ -1,8 +1,9 @@
 from prompt_toolkit.key_binding import KeyBindings
-from prompt_toolkit import PromptSession
+from prompt_toolkit import PromptSession,prompt,print_formatted_text
 from reflect.style import *
 import os
 from prompt_toolkit.shortcuts import clear
+from prompt_toolkit.formatted_text import FormattedText
 
 
 
@@ -58,7 +59,7 @@ def key_press_menu(menu_items, loop_display=""):
 
     while loop:
         if len(loop_display)>0:
-            print(loop_display)
+            print_formatted_text(FormattedText(loop_display),  style=style)
 
         for k in key_positions:
             if not message[k]: # ignore menu items that don't have a message binding
@@ -108,7 +109,7 @@ def time_menu():
     }
     return items[key_press_menu(items)]["text"]
 
-def menu_from_questions(questions, title, menu_generator=key_press_menu):
+def formatted_questions(questions, title):
     items = {
         "title":{"text":title}
     }
@@ -117,7 +118,19 @@ def menu_from_questions(questions, title, menu_generator=key_press_menu):
         items[key_codes[i]]={"text":q["text"]}
     items["--1"]={}
     items["q"]={"text":"Abort"}
-    return menu_generator(items)
+    return get_menu(items)
+
+
+def menu_from_questions(questions, title, loop_display="", menu_generator=key_press_menu):
+    items = {
+        "title":{"text":title}
+    }
+    key_codes = [c for c in "123456789abcdefghijklmnoprstuvwxyz"]
+    for i,q in enumerate(questions):
+        items[key_codes[i]]={"text":q["text"]}
+    items["--1"]={}
+    items["q"]={"text":"Abort"}
+    return menu_generator(items,loop_display)
 
 
 

@@ -7,9 +7,11 @@ import uuid # creating unique id's for storage
 from pathlib import Path # for finding user's home
 from os.path import join as join_path
 from datetime import datetime,timedelta
-from prompt_toolkit import prompt
+from prompt_toolkit import prompt,print_formatted_text
 from prompt_toolkit.shortcuts import clear
+from prompt_toolkit.formatted_text import FormattedText
 from reflect.menus import *
+
 
 
 def today():
@@ -156,7 +158,6 @@ def delete_questions(time, data_base):
         clear_screen()
         print("Question for %s reflection deleted .\n"%time)
 
-
 def change_order(time, data_base):
     # load existing questions
     action=""
@@ -171,7 +172,7 @@ def change_order(time, data_base):
             return
         # get new question
 
-        move_from=delete_action=menu_from_questions(questions, "Which question do you want to move?")
+        move_from=menu_from_questions(questions, "Which question do you want to move?")
 
         if move_from == "q" or move_from == "escape":
             clear_screen()
@@ -184,7 +185,21 @@ def change_order(time, data_base):
             return
 
         # get new question
-        move_to=delete_action=menu_from_questions(questions, "To which position do you want to move it to?")
+
+        loop_text = formatted_questions(questions," Which question do you want to move?")
+        sel_pos = -1
+        for i, l in enumerate(loop_text):
+            if l[1]=="(%s) "%move_from:
+                sel_pos=i
+                break
+        if sel_pos>-1:
+            loop_text[sel_pos] = ('class:current_key', loop_text[sel_pos][1])
+            loop_text[sel_pos+1] = ('class:current_key', loop_text[sel_pos+1][1])
+
+        clear_screen()
+        move_to=menu_from_questions(questions, "To which position do you want to move it to?", loop_text )
+
+
 
         if move_to == "q" or move_to == "escape":
             clear_screen()
@@ -376,7 +391,7 @@ def browse(current_date, data_base ):
         # show menu
         action = browse_menu(day_string(current_date, data_base ))
         clear()
-        
+
         if action=="b":
             return
         elif action=="p" or action =="Keys.Right":

@@ -10,6 +10,8 @@ def get_menu(menu_items):
     message = []
 
     for k in menu_items:
+        if not menu_items[k]: # key only
+            continue
         if "title" == k:
             message.append( ('class:title', menu_items[k]["text"]+"\n") )
             message.append(('class:separator',"="*20+"\n\n") )
@@ -21,7 +23,6 @@ def get_menu(menu_items):
         if "--" in k:
             message.append( ('class:separator', "-"*20+"\n"  ) )
             continue
-
 
         m=menu_items[k]
         message.append( ('class:key', "(%s) " %k) )
@@ -37,13 +38,15 @@ def key_press_menu(menu_items, loop_display=""):
 
     @bindings.add('c-m')
     @bindings.add('up')
+    @bindings.add('left')
+    @bindings.add('right')
     @bindings.add('escape')
     @bindings.add('down')
     @bindings.add('<any>')
     def _(event):
         event.app.exit()
         global key_pressed
-        key_pressed=event.key_sequence[0].key
+        key_pressed=str(event.key_sequence[0].key)
 
     session = PromptSession()
     loop = True
@@ -54,9 +57,12 @@ def key_press_menu(menu_items, loop_display=""):
             key_positions.append(i)
 
     while loop:
-        print(loop_display)
+        if len(loop_display)>0:
+            print(loop_display)
 
         for k in key_positions:
+            if not message[k]: # ignore menu items that don't have a message binding
+                continue
             message[k]=('class:key', message[k][1])
             message[k+1]=('class:menu_item', message[k+1][1])
         message[key_positions[current_key]]=('class:current_key',message[key_positions[current_key]][1])
@@ -66,9 +72,14 @@ def key_press_menu(menu_items, loop_display=""):
         if str(key_pressed)=="Keys.Up":
             if current_key>0:
                 current_key=current_key-1
+            clear()
+            continue
+
         if str(key_pressed)=="Keys.Down":
             if current_key<len(key_positions)-1:
                 current_key=current_key+1
+            clear()
+            continue
 
         if str(key_pressed)=="Keys.ControlM": # enter has been pressed
             key_pressed=message[key_positions[current_key]][1].split(")")[0][1:]
@@ -78,13 +89,13 @@ def key_press_menu(menu_items, loop_display=""):
             loop=False
             return key_pressed
 
-        if not key_pressed in menu_items:
+
+        if not (str(key_pressed) in list(menu_items.keys())):
             clear()
             continue
         else:
             loop=False
             break
-
 
     return key_pressed
 
@@ -93,7 +104,7 @@ def time_menu():
         "title":{"text":"Which type of reflection do you want to do?"},
         "m":{"text":"Morning"},
         "e":{"text":"Evening"},
-        "b":{"text":"Back"},
+        "b":{"text":"Back"}
     }
     return items[key_press_menu(items)]["text"]
 
@@ -117,5 +128,7 @@ def browse_menu(day_string):
         "p":{"text":"Previous day", "handler": quit },
         "g":{"text":"Goto day", "handler": quit },
         "b":{"text":"Back to main menu", "handler": quit },
+        "Keys.Left":False,
+        "Keys.Right":False
     }
     return key_press_menu(items,day_string)

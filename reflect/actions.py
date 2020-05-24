@@ -376,12 +376,13 @@ def browse(current_date, data_base ):
         # show menu
         action = browse_menu(day_string(current_date, data_base ))
         clear()
+        
         if action=="b":
             return
-        elif action=="p":
+        elif action=="p" or action =="Keys.Right":
             current_date = change_date(current_date, -1)
             continue
-        elif action=="n":
+        elif action=="n" or action =="Keys.Left":
             current_date = change_date(current_date, 1)
             continue
         elif action == "g":

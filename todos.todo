@@ -1,6 +1,9 @@
 v0.2:
 ✔ fix browse clearing @done(2020-05-22 09:19)
 ✔ add left right navigation for browse items @done(2020-05-24 13:31)
-✔ fix change order clearing @done(2020-05-24 14:18)
+✔ fix change order clearing @done(2020-05-24 14:18
+✔ fix colorful display for browsing @done(2020-05-25 09:58)
+☐ remove all debug messages
+☐ check all functions
 ☐ documentation
 ☐ tests?

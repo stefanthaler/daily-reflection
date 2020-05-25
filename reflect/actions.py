@@ -199,8 +199,6 @@ def change_order(time, data_base):
         clear_screen()
         move_to=menu_from_questions(questions, "To which position do you want to move it to?", loop_text )
 
-
-
         if move_to == "q" or move_to == "escape":
             clear_screen()
             print("Aborted order change.\n")
@@ -359,23 +357,21 @@ def day_string(date,data_base):
         "Evening":evening_answers
     }
 
-    # TODO add color scheme
-    # print questions and answers for that day
-    day_string  = ""
-    day_string += (date[0:4]+"-"+date[4:6]+"-"+date[6:]) + "\n"
-    day_string += "==========\n" + "\n"
+    formatted_answers  = []
+    formatted_answers.append( ('class:title', date[0:4]+"-"+date[4:6]+"-"+date[6:]+"\n") )
+    formatted_answers.append( ('class:separator', "="*20+"\n\n") )
 
     for t in ["Morning","Evening"]:
         if t in answers_by_date:
-            day_string += "\t%s:"%(t) + "\n"
+            formatted_answers.append(  ('class:title',"%s:\n"%(t)) )
             for q in questions[t]:
                 if q["id"] in answers_by_date[t]:
-                    day_string += "\t\t"+q["text"] +"\n"
-                    day_string += "\t\t\t"+answers_by_date[t][q["id"]] +"\n"
-            day_string += "\n"
+                    formatted_answers.append( ('class:key',"\t%s:"%q["text"]) )
+                    formatted_answers.append( ('class:menu_item',"\t%s\n"%answers_by_date[t][q["id"]]) )
+            formatted_answers.append(  ('class:title',"\n") )
 
-    day_string += "\n"
-    return day_string
+    formatted_answers.append(  ('class:title',"\n") )
+    return formatted_answers
 
 def change_date(current_date, offset_in_days):
 

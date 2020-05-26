@@ -41,7 +41,7 @@ def key_press_menu(menu_items, loop_display=""):
     @bindings.add('up')
     @bindings.add('left')
     @bindings.add('right')
-    @bindings.add('escape')
+    @bindings.add('escape', eager=True)
     @bindings.add('down')
     @bindings.add('<any>')
     def _(event):

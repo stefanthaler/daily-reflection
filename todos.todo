@@ -3,7 +3,11 @@ v0.2:
 ✔ add left right navigation for browse items @done(2020-05-24 13:31)
 ✔ fix change order clearing @done(2020-05-24 14:18
 ✔ fix colorful display for browsing @done(2020-05-25 09:58)
-☐ remove all debug messages
-☐ check all functions
+✔ remove all debug messages @done(2020-05-26 08:46)
+✔ check all functions @done(2020-05-26 08:46)
 ☐ documentation
 ☐ tests?
+☐ publish
+
+v0.2.1:
+☐ refactor fix flickering in menus

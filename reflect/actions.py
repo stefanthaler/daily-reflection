@@ -322,11 +322,11 @@ def export(data_base):
 
             for t in ["Morning","Evening"]:
                 if t in answers_by_date[d]:
-                    f.write("\t%s:\n"%(t))
+                    f.write("%s:\n"%(t))
                     for q in questions[t]:
                         if q["id"] in answers_by_date[d][t]:
-                            f.write("\t\t")
-                            f.write(q["text"]+"\t\t")
+                            f.write("\t")
+                            f.write(q["text"]+"\t")
                             f.write(answers_by_date[d][t][q["id"]]+"\n")
                     f.write("\n")
 

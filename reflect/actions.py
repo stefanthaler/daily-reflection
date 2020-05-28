@@ -59,6 +59,7 @@ def do_reflection(time, data_base):
         else:
             data_base.update(answers, (Answers.time == time) & (Answers.date==today()) & (Answers.type=="reflection") )
 
+    clear()
     print("%s-reflection stored.\n"%time)
 
 def get_questions(time, data_base):

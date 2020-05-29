@@ -112,6 +112,7 @@ def add_questions(time, data_base):
         #store new question
         Questions=Query()
         data_base.update({'questions':questions}, Questions.time == time)
+        clear_screen()
         print("Question successfully added.\n")
         # prompt if you want to add more questions?
 

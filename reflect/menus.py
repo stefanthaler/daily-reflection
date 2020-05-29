@@ -11,8 +11,6 @@ def get_menu(menu_items):
     message = []
 
     for k in menu_items:
-        if not menu_items[k]: # key only
-            continue
         if "title" == k:
             message.append( ('class:title', menu_items[k]["text"]+"\n") )
             message.append(('class:separator',"="*20+"\n\n") )
@@ -20,9 +18,11 @@ def get_menu(menu_items):
         if "==" in k:
             message.append( ('class:separator', "="*20+"\n" ) )
             continue
-
         if "--" in k:
             message.append( ('class:separator', "-"*20+"\n"  ) )
+            continue
+
+        if not menu_items[k]: # key only
             continue
 
         m=menu_items[k]

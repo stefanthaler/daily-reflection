@@ -1,4 +1,3 @@
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=C8FBBG2RZ5WYS&currency_code=EUR&source=url)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # Daily Reflection
@@ -45,4 +44,4 @@ daily-reflection
 
 # Thanks to:
 * Deepak Kumar for his tutorial on how to publish your python package on pip, https://dzone.com/articles/executable-package-pip-install
-* Shields.io, for providing the github paypal and the MIT  license button: https://shields.io/
+* Shields.io, for providing the MIT  license button: https://shields.io/

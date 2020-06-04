@@ -26,7 +26,7 @@ import getpass
 
 from reflect.style import *
 
-VERSION="0.2.0"
+from reflect.version import *
 
 # get password
 clear_screen()

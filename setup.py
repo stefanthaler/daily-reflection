@@ -1,9 +1,11 @@
 import setuptools
+from reflect.version import VERSION
+
 with open("README.md", "r") as fh:
     long_description = fh.read()
 setuptools.setup(
      name='daily-reflection',
-     version='0.2.1',
+     version=VERSION,
      scripts=['daily-reflection'] ,
      author="Stefan Thaler",
      author_email="bruthaler@gmail.com",

@@ -1,31 +1,20 @@
 #!/usr/bin/python3
-
-
-# https://codeburst.io/building-beautiful-command-line-interfaces-with-python-26c7e1bb54df
-
 from __future__ import print_function, unicode_literals
-from pprint import pprint
-from tinydb import TinyDB, where, Query
-import tinydb_encrypted_jsonstorage as tae
-from reflect.actions import *
+
 import sys
 import os
-import datetime
-import uuid # creating unique id's for storage
 from pathlib import Path # for finding user's home
-# colorise output
-from prompt_toolkit.shortcuts import prompt
 
+import uuid # creating unique id's for storage
+from tinydb import TinyDB, where, Query
+import tinydb_encrypted_jsonstorage as tae
 
 from prompt_toolkit import prompt
 from prompt_toolkit.filters import Condition
-
 from prompt_toolkit.patch_stdout import patch_stdout
-from prompt_toolkit import prompt
-import getpass
 
+from reflect.actions import *
 from reflect.style import *
-
 from reflect.version import *
 
 # get password

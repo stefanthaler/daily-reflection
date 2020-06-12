@@ -5,8 +5,6 @@ import os
 from prompt_toolkit.shortcuts import clear
 from prompt_toolkit.formatted_text import FormattedText
 
-
-
 def get_menu(menu_items):
     message = []
 

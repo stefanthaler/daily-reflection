@@ -12,8 +12,6 @@ from prompt_toolkit.shortcuts import clear
 from prompt_toolkit.formatted_text import FormattedText
 from reflect.menus import *
 
-
-
 def today():
     return datetime.now().strftime("%Y%m%d")
 
